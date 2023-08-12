@@ -27,5 +27,23 @@ spring:
     jcache:
       config: classpath:ehcache.xml
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    # mot de passe passé en paramètre lors exécution 
+    password: ${my.password}
+    virtual-host: mspoc
+
+# paramètres queues
+mspoc1:
+  rabbitmq:
+    in:
+      consumerQueueName: "q1"
+    out:
+      exchange: "q2_ex"
+      routingKey: "message.q2"
+
+
 
     

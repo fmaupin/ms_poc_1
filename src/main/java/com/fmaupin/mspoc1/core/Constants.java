@@ -35,4 +35,5 @@ public class Constants {
     public static final String TRANSLITERATION_SPLIT_SEPARATOR = ",";
 
     public static final String LABEL_SPLIT_SEPARATOR = ",";
+
 }
