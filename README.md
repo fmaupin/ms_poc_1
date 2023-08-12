@@ -14,6 +14,7 @@ Ce projet a été créé par Fabrice MAUPIN.
 
 GNU General Public License v3.0
 
-See [LICENSE](  https://github.com/fmaupin/ounasproject/blob/master/LICENSE  ) to see the full text.
+See [LICENSE](  https://github.com/fmaupin/ms_poc_1/blob/master/LICENSE  ) to see the full text.
+
 
 
