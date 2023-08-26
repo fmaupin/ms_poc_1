@@ -1,11 +1,16 @@
 package com.fmaupin.mspoc1;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
-
 import com.fmaupin.mspoc1.core.Constants;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * point d'entrée de l'application
@@ -32,10 +37,29 @@ import com.fmaupin.mspoc1.core.Constants;
 @SpringBootApplication
 @EntityScan({ Constants.BASE_PACKAGE })
 @EnableCaching
+@Slf4j
 public class Application {
+
+	@Value("${mspoc1.rabbitmq.out.exchange}")
+	private String exchange;
+
+	@Value("${mspoc1.rabbitmq.out.routingkey}")
+	private String routingkey;
+
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+	}
+
+	/* consommateur de messages */
+	@RabbitListener(queues = "#{inQueue}")
+	public void listen(String in) {
+		log.info("Message read : " + in);
+
+		// envoi d'un message de test
+		rabbitTemplate.convertAndSend(exchange, routingkey, in);
 	}
 
 }
