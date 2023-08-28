@@ -1,15 +1,24 @@
 package com.fmaupin.mspoc1;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
-import com.fmaupin.mspoc1.core.Constants;
+import org.springframework.messaging.handler.annotation.Header;
 
+import com.fmaupin.mspoc1.core.Constants;
+import com.fmaupin.mspoc1.model.message.InputMessage;
+import com.fmaupin.mspoc1.service.result.ResultService;
+import com.rabbitmq.client.Channel;
+
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -38,28 +47,78 @@ import lombok.extern.slf4j.Slf4j;
 @EntityScan({ Constants.BASE_PACKAGE })
 @EnableCaching
 @Slf4j
-public class Application {
-
-	@Value("${mspoc1.rabbitmq.out.exchange}")
-	private String exchange;
-
-	@Value("${mspoc1.rabbitmq.out.routingkey}")
-	private String routingkey;
+public class Application implements CommandLineRunner {
 
 	@Autowired
-	private RabbitTemplate rabbitTemplate;
+	private ResultService resultService;
+
+	// contenu dernier message entrant
+	private String previousMessage = "";
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 
-	/* consommateur de messages */
-	@RabbitListener(queues = "#{inQueue}")
-	public void listen(String in) {
-		log.info("Message read : " + in);
+	@Override
+	public void run(String... args) {
+		Thread polling = new Thread(() -> {
+			while (true) {
+				try {
+					// récupération message entrant
+					InputMessage poll = resultService.getInQueue().take();
 
-		// envoi d'un message de test
-		rabbitTemplate.convertAndSend(exchange, routingkey, in);
+					// traitement message
+					log.info("Polled : " + poll.toString());
+
+					resultService.process(poll);
+				} catch (InterruptedException | AmqpException | ExecutionException e) {
+					resultService.errorHandling(e);
+				}
+			}
+		});
+
+		polling.start();
+
+		Thread sending = new Thread(() -> {
+			while (true) {
+				try {
+					Thread.sleep(1000);
+
+					if (resultService.isAnyMessagesToSend()) {
+						resultService.send();
+					} else {
+						resultService.clean();
+					}
+				} catch (InterruptedException e) {
+					resultService.errorHandling(e);
+				}
+			}
+		});
+
+		sending.start();
+
+	}
+
+	@RabbitListener(queues = "#{inQueue}", ackMode = "MANUAL")
+	public void listen(String in, Channel channel,
+			@Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException {
+		// acquitter le message
+		channel.basicAck(tag, false);
+
+		// on ne traite pas 2 fois le même message séquentiellement !
+		if (!in.equals(this.previousMessage)) {
+			// mise en queue du message pour traitement
+			resultService.addToQueue(in);
+
+			this.previousMessage = in;
+		} else {
+			log.info("This message has already been processed");
+		}
+	}
+
+	@PreDestroy
+	public void preDestroy() {
+		resultService.shutdown();
 	}
 
 }

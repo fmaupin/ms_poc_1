@@ -16,7 +16,7 @@
         </expiry>
         <listeners>
             <listener>
-                <class>com.fmaupin.mspoc1.core.cache.CacheEventLogger</class>
+                <class>com.fmaupin.mspoc1.core.CacheEventLogger</class>
                 <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
                 <event-ordering-mode>UNORDERED</event-ordering-mode>
                 <events-to-fire-on>CREATED</events-to-fire-on>

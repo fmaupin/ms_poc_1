@@ -1,16 +1,18 @@
-package com.fmaupin.mspoc1.core.cache;
+package com.fmaupin.mspoc1.service.logic;
 
-import org.ehcache.event.CacheEvent;
-import org.ehcache.event.CacheEventListener;
+import java.util.Random;
+
+import org.springframework.stereotype.Service;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Listener pour events cache
+ * Couche service pour implémentation métier
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 29/08/2023
  *
  * @since 0.0.1-SNAPSHOT
- * 
+ *
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -26,13 +28,29 @@ import lombok.extern.slf4j.Slf4j;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
+@Service
 @Slf4j
-public class CacheEventLogger implements CacheEventListener<Object, Object> {
+public class LogicService implements Logic {
+
+    private Random random = new Random();
 
     @Override
-    public void onEvent(CacheEvent<? extends Object, ? extends Object> cacheEvent) {
-        log.info("Cache event {} for item with key {}. Old value = {}, New value = {}", cacheEvent.getType(),
-                cacheEvent.getKey(), cacheEvent.getOldValue(), cacheEvent.getNewValue());
+    public String run(String message) {
+        long lowerLimit = 1000L;
+        long upperLimit = 10000L;
+
+        long processingTime = random.nextLong(lowerLimit, upperLimit);
+
+        try {
+            Thread.sleep(processingTime);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        log.info("Thread {} - processing message {} -> processing time {}", Thread.currentThread().getName(), message,
+                processingTime);
+
+        return message;
     }
 
 }

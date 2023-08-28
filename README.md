@@ -4,7 +4,7 @@ L'objectif de ce projet est de pouvoir développer un micro service communiquant
 
 Aucune IHM ne sera développée.
 
-Les données seront injectées directement dans le broker de messages puis consommées par le micro service.
+Les données seront injectées manuellement dans le broker de messages puis consommées par le micro service.
 
 La thématique du micro-service est la détection de **phonogrammes** dans une séquence hiéroglyphique.
 

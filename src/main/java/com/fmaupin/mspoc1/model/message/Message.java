@@ -1,12 +1,14 @@
-package com.fmaupin.mspoc1.core;
+package com.fmaupin.mspoc1.model.message;
 
-import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
- * Constantes globales à l'application
+ * MODEL -> message
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 28/08/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -25,16 +27,12 @@ import lombok.AccessLevel;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Constants {
+@Getter
+@Setter
+@SuperBuilder
+@ToString
+public abstract class Message {
 
-    public static final String BASE_PACKAGE = "com.fmaupin.mspoc1";
+    protected String msg;
 
-    public static final String SIGN_SPLIT_SEPARATOR = "-";
-
-    public static final String TRANSLITERATION_SPLIT_SEPARATOR = ",";
-
-    public static final String LABEL_SPLIT_SEPARATOR = ",";
-
-    public static final Integer AWAIT_TERMINATION = 1000;
 }

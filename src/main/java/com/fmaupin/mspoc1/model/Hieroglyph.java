@@ -31,7 +31,7 @@ import lombok.ToString;
 import com.fmaupin.mspoc1.core.Constants;
 
 /**
- * MODEL -> Hiéroglyphe
+ * MODEL -> hiéroglyphe
  *
  * @author fmaupin, 26/12/2022
  *

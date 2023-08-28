@@ -1,15 +1,16 @@
 package com.fmaupin.mspoc1.core;
 
-import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
+import org.ehcache.event.CacheEvent;
+import org.ehcache.event.CacheEventListener;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Constantes globales à l'application
+ * Listener pour events cache
  *
  * @author fmaupin, 28/12/2022
  *
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -25,16 +26,13 @@ import lombok.AccessLevel;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Constants {
+@Slf4j
+public class CacheEventLogger implements CacheEventListener<Object, Object> {
 
-    public static final String BASE_PACKAGE = "com.fmaupin.mspoc1";
+    @Override
+    public void onEvent(CacheEvent<? extends Object, ? extends Object> cacheEvent) {
+        log.info("Cache event {} for item with key {}. Old value = {}, New value = {}", cacheEvent.getType(),
+                cacheEvent.getKey(), cacheEvent.getOldValue(), cacheEvent.getNewValue());
+    }
 
-    public static final String SIGN_SPLIT_SEPARATOR = "-";
-
-    public static final String TRANSLITERATION_SPLIT_SEPARATOR = ",";
-
-    public static final String LABEL_SPLIT_SEPARATOR = ",";
-
-    public static final Integer AWAIT_TERMINATION = 1000;
 }

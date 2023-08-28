@@ -35,8 +35,8 @@ public class RabbitMQConfig {
     public Queue inQueue() {
         return QueueBuilder.durable(inQueueName)
                 .withArgument("x-queue-type", "quorum")
-                .withArgument("x-delivery-limit", 5)
-                .withArgument("x-message-ttl", 300000)
+                .withArgument("x-delivery-limit", 3)
+                .withArgument("x-message-ttl", 3600000)
                 .build();
     }
 
