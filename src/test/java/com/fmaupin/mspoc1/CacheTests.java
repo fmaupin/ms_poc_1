@@ -14,10 +14,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import com.fmaupin.mspoc1.core.cache.CacheService;
+
 import com.fmaupin.mspoc1.model.Hieroglyph;
 import com.fmaupin.mspoc1.model.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.repository.HieroglyphRepository;
+import com.fmaupin.mspoc1.service.CacheService;
 import com.fmaupin.mspoc1.service.HieroglyphService;
 
 import lombok.extern.slf4j.Slf4j;

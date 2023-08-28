@@ -1,12 +1,9 @@
-package com.fmaupin.mspoc1.core;
-
-import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
+package com.fmaupin.mspoc1.service.logic;
 
 /**
- * Constantes globales à l'application
+ * Interface pour couche service pour implémentation métier
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 29/08/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -25,16 +22,8 @@ import lombok.AccessLevel;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Constants {
+public interface Logic {
 
-    public static final String BASE_PACKAGE = "com.fmaupin.mspoc1";
+    public String run(String message);
 
-    public static final String SIGN_SPLIT_SEPARATOR = "-";
-
-    public static final String TRANSLITERATION_SPLIT_SEPARATOR = ",";
-
-    public static final String LABEL_SPLIT_SEPARATOR = ",";
-
-    public static final Integer AWAIT_TERMINATION = 1000;
 }

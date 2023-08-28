@@ -1,12 +1,13 @@
-package com.fmaupin.mspoc1.core;
+package com.fmaupin.mspoc1.service.result;
 
-import lombok.NoArgsConstructor;
-import lombok.AccessLevel;
+import java.util.concurrent.ExecutionException;
+import com.fmaupin.mspoc1.model.message.InputMessage;
 
 /**
- * Constantes globales à l'application
+ * Interface pour couche service pour gestion des résultats issus traitement des
+ * messages entrants
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 29/08/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -25,16 +26,26 @@ import lombok.AccessLevel;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Constants {
+public interface Result {
 
-    public static final String BASE_PACKAGE = "com.fmaupin.mspoc1";
+    public void addToQueue(String msg);
 
-    public static final String SIGN_SPLIT_SEPARATOR = "-";
+    public void process(InputMessage poll)
+            throws InterruptedException, ExecutionException;
 
-    public static final String TRANSLITERATION_SPLIT_SEPARATOR = ",";
+    public void setToComplete(int index, InputMessage poll, String result);
 
-    public static final String LABEL_SPLIT_SEPARATOR = ",";
+    public void setToSend(int index, InputMessage poll);
 
-    public static final Integer AWAIT_TERMINATION = 1000;
+    public boolean isAnyMessagesToSend();
+
+    public void send();
+
+    public void errorHandling(Exception e);
+
+    public void errorHandling(String message);
+
+    public void clean();
+
+    public void shutdown();
 }
