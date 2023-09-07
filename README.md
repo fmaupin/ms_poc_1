@@ -1,25 +1,35 @@
 ## projet ms-poc-1
 
-L'objectif de ce projet est de pouvoir développer un micro service communiquant avec un broker de messages.
+L'objectif de ce projet est de développer un micro service communiquant avec un broker de messages.
 
 Aucune IHM ne sera développée.
 
-Les données seront injectées manuellement dans le broker de messages puis consommées par le micro service.
+Les données seront injectées manuellement dans le broker de messages (via sa [console Web](http://localhost:15672)) puis consommées par le micro service.
 
-La thématique du micro-service est la détection de **phonogrammes** dans une séquence hiéroglyphique.
+Le format des données à injecter : "code Gardiner+code Gardiner+code Gardiner..."
+
+Les codes Gardiner représentent la nomenclature des hiéroglyphiques selon Sir Gardiner.
+
+La thématique du micro-service est la détection de **phonogrammes et de ses compléments phonétiques** dans une séquence hiéroglyphique.
+
+Pour plus d'informations sur le paramètrage du broker veuillez consulter le projet [ms_poc_1_rabbitMQ](https://github.com/fmaupin/ms_poc_1_rabbitMQ).
 
 ***
 
 ### Pré-requis
 
-Installation de [JDK_Java](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
+Installation du [JDK Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
 
 ***
 
-### Exécution app
+### Exécution & install app
 
 ```
 mvn spring-boot:run -Dspring-boot.run.arguments="--my.password=<my password>"
+```
+
+```
+mvn clean install -Dmy.password=<my password>
 ```
 
 La valeur de <my password> va dépendre du password généré par le projet [ms_poc_1_rabbitMQ](https://github.com/fmaupin/ms_poc_1_rabbitMQ). 
