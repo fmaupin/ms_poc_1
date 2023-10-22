@@ -37,4 +37,6 @@ public class Constants {
     public static final String LABEL_SPLIT_SEPARATOR = ",";
 
     public static final Integer AWAIT_TERMINATION = 1000;
+
+    public static final String NO_CACHE = "internal error : no cache %s unvailable";
 }

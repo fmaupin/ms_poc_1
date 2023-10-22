@@ -6,7 +6,7 @@ Aucune IHM ne sera développée.
 
 Les données seront injectées manuellement dans le broker de messages (via sa [console Web](http://localhost:15672)) puis consommées par le micro service.
 
-Le format des données à injecter : "code Gardiner+code Gardiner+code Gardiner..."
+Le format des données à injecter : "[code Gardiner] + [code Gardiner] + ..."
 
 Les codes Gardiner représentent la nomenclature des hiéroglyphiques selon Sir Gardiner.
 
@@ -20,19 +20,23 @@ Pour plus d'informations sur le paramètrage du broker veuillez consulter le pro
 
 Installation du [JDK Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
 
+Exécution du broker
+
 ***
 
-### Exécution & install app
+### Exécution, test & install app
 
 ```
 mvn spring-boot:run -Dspring-boot.run.arguments="--my.password=<my password>"
 ```
 
 ```
+mvn test -Dmy.password=<my password>
+
 mvn clean install -Dmy.password=<my password>
 ```
 
-La valeur de <my password> va dépendre du password généré par le projet [ms_poc_1_rabbitMQ](https://github.com/fmaupin/ms_poc_1_rabbitMQ). 
+La valeur de "my password" va dépendre du password généré par le projet [ms_poc_1_rabbitMQ](https://github.com/fmaupin/ms_poc_1_rabbitMQ). 
 
 ***
 

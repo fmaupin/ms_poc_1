@@ -1,27 +1,27 @@
 package com.fmaupin.mspoc1;
 
+import static java.lang.annotation.ElementType.METHOD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.Optional.ofNullable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.fmaupin.mspoc1.model.Hieroglyph;
 import com.fmaupin.mspoc1.model.enumeration.HieroglyphEnum;
-import com.fmaupin.mspoc1.repository.HieroglyphRepository;
 import com.fmaupin.mspoc1.service.CacheService;
 import com.fmaupin.mspoc1.service.HieroglyphService;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Tests sur cache données
@@ -46,77 +46,65 @@ import lombok.extern.slf4j.Slf4j;
  *        02110-1301, USA.
  */
 @SpringBootTest
-@Slf4j
-@TestMethodOrder(OrderAnnotation.class)
 class CacheTests {
-
-	@Autowired
-	private HieroglyphService service;
-
-	@Autowired
-	private HieroglyphRepository repository;
 
 	@Autowired
 	private CacheService cacheService;
 
-	void newEntries() {
-		// entry 1
-		List<String> signid = new ArrayList<>();
-		signid.add("G1");
+	private List<Hieroglyph> hieroglyphs;
 
-		HashSet<String> transliteration = new HashSet<>();
-		transliteration.add("A");
+	private Map<HieroglyphEnum, Integer> labelsCount;
 
-		HashSet<HieroglyphEnum> label = new HashSet<>();
-		label.add(HieroglyphEnum.UNILITERAL);
+	private static final String HIEROGLYPH_ID = "G1";
 
-		repository.save(Hieroglyph.builder().id(Long.valueOf(1)).signid(
-				signid).transliteration(transliteration).label(label).build());
-
-		// entry 2
-		signid = new ArrayList<>();
-		signid.add("M17");
-
-		transliteration = new HashSet<>();
-		transliteration.add("i");
-
-		label = new HashSet<>();
-		label.add(HieroglyphEnum.UNILITERAL);
-
-		repository.save(Hieroglyph.builder().id(Long.valueOf(2)).signid(
-				signid).transliteration(transliteration).label(label).build());
-
+	// annotation customisée -> pas de chargement de data
+	@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+	@Target({ METHOD })
+	@interface SkipInit {
 	}
 
-	@Test
-	@Order(1)
-	void testHieroglyphsNotYetCached() {
-		assertEquals(Optional.empty(), cacheService.getHieroglyph(List.of("G1")));
-	}
+	@BeforeEach
+	public void init(@Autowired HieroglyphService service, TestInfo testInfo)
+			throws NoSuchMethodException, SecurityException {
+		cacheService.clear();
 
-	@Test
-	@Order(2)
-	void testHieroglyphsCached() {
-		newEntries();
+		SkipInit skipInit = testInfo.getTestMethod().get().getAnnotation(SkipInit.class);
 
-		List<Hieroglyph> hieroglyphs = service.findAll();
+		// charger les data uniquement pour les tests n'ayant pas d'annotation @SkipInit
+		if (skipInit == null) {
+			hieroglyphs = service.findAll();
 
-		for (Hieroglyph hieroglyph : hieroglyphs) {
-			log.info(hieroglyph.toString());
+			// pré-comptage des hiéroglyphes par label
+			labelsCount = hieroglyphs.stream()
+					.flatMap(h -> h.getLabel().stream())
+					.collect(Collectors.groupingBy(Function.identity(),
+							Collectors.collectingAndThen(Collectors.counting(), Long::intValue)));
 		}
-
-		Optional<Hieroglyph> hieroglyph = ofNullable(hieroglyphs.get(0));
-
-		assertEquals(hieroglyph, cacheService.getHieroglyph(List.of("G1")));
 	}
 
-	/*
-	 * @Test
-	 * 
-	 * @Order(3)
-	 * void testHieroglyphCached() {
-	 * newEntries();
-	 * 
-	 * }
-	 */
+	@Test
+	@SkipInit
+	void testHieroglyphsNotYetCached() {
+		assertEquals(Optional.empty(), cacheService.getHieroglyph(List.of(HIEROGLYPH_ID)));
+	}
+
+	@Test
+	void testHieroglyphsCached() {
+		Optional<Hieroglyph> hieroglyph = ofNullable(
+				hieroglyphs.stream().filter(h -> h.getSignid().contains(HIEROGLYPH_ID)).findFirst().get());
+
+		assertEquals(hieroglyph, cacheService.getHieroglyph(List.of(HIEROGLYPH_ID)));
+	}
+
+	@Test
+	void testHieroglyphByLabelCached() {
+		assertEquals(labelsCount.get(HieroglyphEnum.UNILITERAL),
+				cacheService.getHieroglyphsFromLabel(HieroglyphEnum.UNILITERAL).size());
+
+		assertEquals(labelsCount.get(HieroglyphEnum.BILITERAL),
+				cacheService.getHieroglyphsFromLabel(HieroglyphEnum.BILITERAL).size());
+
+		assertEquals(labelsCount.get(HieroglyphEnum.TRILITERAL),
+				cacheService.getHieroglyphsFromLabel(HieroglyphEnum.TRILITERAL).size());
+	}
 }
