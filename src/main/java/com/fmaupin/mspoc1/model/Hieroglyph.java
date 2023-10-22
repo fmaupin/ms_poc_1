@@ -65,7 +65,7 @@ public class Hieroglyph implements Serializable, Comparable<Hieroglyph> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // INFO : peut contenir des 'sign id' en doublons - ordre d'insertion des
+    // NOTE : peut contenir des 'sign id' en doublons - ordre d'insertion des
     // sign ids est important
     @Column(nullable = false)
     @Convert(converter = StringListConverter.class)

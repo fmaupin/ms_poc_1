@@ -36,7 +36,7 @@ public class HieroglyphService {
     private HieroglyphRepository hieroglyphRepository;
 
     /**
-     * @return liste de tous les objets hiéroglyphes
+     * @return liste de tous les objets "hiéroglyphes"
      */
     @Cacheable(value = "all_hieroglyphs", key = "'all_hieroglyphs'")
     public List<Hieroglyph> findAll() {
