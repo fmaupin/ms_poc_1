@@ -28,6 +28,7 @@ import com.fmaupin.mspoc1.model.Hieroglyph;
  */
 public interface HieroglyphRepository extends CrudRepository<Hieroglyph, Long> {
 
+    @SuppressWarnings("null")
     List<Hieroglyph> findAll();
 
 }

@@ -16,7 +16,6 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -62,10 +61,8 @@ public class ResultService implements Result {
     @Value("${mspoc1.rabbitmq.out.routingkey}")
     private String routingkey;
 
-    @Autowired
     private LogicService logicService;
 
-    @Autowired
     private RabbitTemplate rabbitTemplate;
 
     // gestionnaire d'exécution des tâches
@@ -78,6 +75,11 @@ public class ResultService implements Result {
     // queue ordonnée pour messages entrants
     @Getter
     private PriorityBlockingQueue<InputMessage> inQueue = new PriorityBlockingQueue<>();
+
+    public ResultService(final LogicService logicService, final RabbitTemplate rabbitTemplate) {
+        this.logicService = logicService;
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     @Override
     public synchronized void process(InputMessage poll)

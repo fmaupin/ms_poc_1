@@ -5,7 +5,6 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +13,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.messaging.handler.annotation.Header;
 
 import com.fmaupin.mspoc1.core.Constants;
+import com.fmaupin.mspoc1.core.exception.ThreadInterruptedException;
 import com.fmaupin.mspoc1.model.message.InputMessage;
 import com.fmaupin.mspoc1.service.result.ResultService;
 import com.rabbitmq.client.Channel;
@@ -49,11 +49,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Application implements CommandLineRunner {
 
-	@Autowired
 	private ResultService resultService;
 
 	// contenu dernier message entrant
 	private String previousMessage = "";
+
+	public Application(ResultService resultService) {
+		this.resultService = resultService;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -72,7 +75,8 @@ public class Application implements CommandLineRunner {
 
 					resultService.process(poll);
 				} catch (InterruptedException | AmqpException | ExecutionException e) {
-					resultService.errorHandling(e);
+					Thread.currentThread().interrupt();
+					throw new ThreadInterruptedException(e);
 				}
 			}
 		});
@@ -90,7 +94,8 @@ public class Application implements CommandLineRunner {
 						resultService.clean();
 					}
 				} catch (InterruptedException e) {
-					resultService.errorHandling(e);
+					Thread.currentThread().interrupt();
+					throw new ThreadInterruptedException(e);
 				}
 			}
 		});

@@ -1,15 +1,9 @@
-package com.fmaupin.mspoc1.service;
-
-import java.util.List;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import com.fmaupin.mspoc1.model.Hieroglyph;
-import com.fmaupin.mspoc1.repository.HieroglyphRepository;
+package com.fmaupin.mspoc1.core.exception;
 
 /**
- * Couche service pour la gestion des hiéroglyphes
- *
- * @author fmaupin, 28/12/2022
+ * Exception si thread interrompu
+ * 
+ * @author fmaupin, 25/02/2024
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -28,21 +22,10 @@ import com.fmaupin.mspoc1.repository.HieroglyphRepository;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@Service
-public class HieroglyphService {
+public class ThreadInterruptedException extends RuntimeException {
 
-    private HieroglyphRepository hieroglyphRepository;
-
-    public HieroglyphService(final HieroglyphRepository hieroglyphRepository) {
-        this.hieroglyphRepository = hieroglyphRepository;
-    }
-
-    /**
-     * @return liste de tous les objets "hiéroglyphes"
-     */
-    @Cacheable(value = "all_hieroglyphs", key = "'all_hieroglyphs'")
-    public List<Hieroglyph> findAll() {
-        return hieroglyphRepository.findAll();
+    public ThreadInterruptedException(Throwable cause) {
+        super(cause.getMessage(), cause);
     }
 
 }
