@@ -1,9 +1,9 @@
-package com.fmaupin.mspoc1.model.enumeration;
+package com.fmaupin.mspoc1.core.exception;
 
 /**
- * Enumération pour les types de hiéroglyphes
+ * Exception si erreur de chargement de données
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 01/01/2024
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -20,33 +20,11 @@ package com.fmaupin.mspoc1.model.enumeration;
  *        You should have received a copy of the GNU Lesser General Public
  *        License along with this program; if not, write to the Free Software
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- *        02110-1301, USA.
- */
-public enum HieroglyphEnum {
-	// ==> phonogrammes
-	UNILITERAL,
-	BILITERAL,
-	TRILITERAL,
+ * 
+ **/
+public class DataLoadingException extends GenericException {
 
-	UNDEFINED;
-
-	/**
-	 * type de hiéroglyphique est-il un phonogramme ?
-	 * 
-	 * @param type: type de hiéroglyphe
-	 * @return true / false
-	 */
-	public static boolean isPhonogram(HieroglyphEnum type) {
-		return type == UNILITERAL || type == BILITERAL || type == TRILITERAL;
-	}
-
-	/**
-	 * vérifier si clé existe dans énumération des types de hiéroglyphes ?
-	 * 
-	 * @param key: clé
-	 * @return true / false
-	 */
-	public static boolean isKeyExists(String key) {
-		return Common.getValue(key, HieroglyphEnum.class) != null;
-	}
+    public DataLoadingException(Exception exception) {
+        super(exception);
+    }
 }

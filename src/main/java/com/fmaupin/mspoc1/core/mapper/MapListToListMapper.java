@@ -1,17 +1,17 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.core.mapper;
 
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Interface pour mapper une liste d'objets vers une autre liste d'objets
+ * 
+ * @author fmaupin, 29/12/2023
  *
- * @author fmaupin, 28/12/2022
- *
+ * @param <F> : liste d'objets source
+ * @param <T> : liste d'objets destination
+ * 
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -27,9 +27,8 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+public interface MapListToListMapper<F, T> {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+    List<T> mapTo(List<F> from);
 
 }

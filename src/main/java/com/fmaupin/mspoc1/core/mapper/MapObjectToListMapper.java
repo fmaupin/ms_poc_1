@@ -1,18 +1,17 @@
-package com.fmaupin.mspoc1.service;
+package com.fmaupin.mspoc1.core.mapper;
 
 import java.util.List;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import com.fmaupin.mspoc1.model.Hieroglyph;
-import com.fmaupin.mspoc1.repository.HieroglyphRepository;
 
 /**
- * Couche service pour la gestion des hiéroglyphes
+ * Interface pour mapper un objet vers une liste d'objets
+ * 
+ * @author fmaupin, 02/11/2023
  *
- * @author fmaupin, 28/12/2022
- *
+ * @param <F> : objet source
+ * @param <T> : liste d'objets destination
+ * 
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -28,21 +27,7 @@ import com.fmaupin.mspoc1.repository.HieroglyphRepository;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@Service
-public class HieroglyphService {
+public interface MapObjectToListMapper<F, T> {
 
-    private HieroglyphRepository hieroglyphRepository;
-
-    public HieroglyphService(final HieroglyphRepository hieroglyphRepository) {
-        this.hieroglyphRepository = hieroglyphRepository;
-    }
-
-    /**
-     * @return liste de tous les objets "hiéroglyphes"
-     */
-    @Cacheable(value = "all_hieroglyphs", key = "'all_hieroglyphs'")
-    public List<Hieroglyph> findAll() {
-        return hieroglyphRepository.findAll();
-    }
-
+    List<T> mapTo(F from);
 }

@@ -1,4 +1,4 @@
-package com.fmaupin.mspoc1.model;
+package com.fmaupin.mspoc1.model.hieroglyph;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -12,7 +12,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.fmaupin.mspoc1.model.converter.HieroglyphEnumSetConverter;
 import com.fmaupin.mspoc1.model.converter.StringListConverter;
 import com.fmaupin.mspoc1.model.converter.StringSetConverter;
-import com.fmaupin.mspoc1.model.enumeration.HieroglyphEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -20,6 +19,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Generated;
@@ -29,9 +29,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import com.fmaupin.mspoc1.core.Constants;
+import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 
 /**
- * MODEL -> hiéroglyphe
+ * MODEL -> hiéroglyphe dans BD
  *
  * @author fmaupin, 26/12/2022
  *
@@ -53,13 +54,14 @@ import com.fmaupin.mspoc1.core.Constants;
  *        02110-1301, USA.
  */
 @Entity
+@Table(name = "hieroglyph")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Hieroglyph implements Serializable, Comparable<Hieroglyph> {
+public class HieroglyphDb implements Serializable, Comparable<HieroglyphDb> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,21 +119,21 @@ public class Hieroglyph implements Serializable, Comparable<Hieroglyph> {
             return true;
         }
 
-        if (!(o instanceof Hieroglyph)) {
+        if (!(o instanceof HieroglyphDb)) {
             return false;
         }
 
-        Hieroglyph otherHieroghyph = (Hieroglyph) o;
+        HieroglyphDb otherHieroghyph = (HieroglyphDb) o;
 
         return (compareTo(otherHieroghyph) == 0);
     }
 
     @Override
     @Generated
-    public int compareTo(Hieroglyph other) {
-        return Comparator.comparing(Hieroglyph::getStringSignid, Comparator.nullsFirst(String::compareTo))
-                .thenComparing(Hieroglyph::getStringTransliteration, Comparator.nullsFirst(String::compareTo))
-                .thenComparing(Hieroglyph::getStringLabel, Comparator.nullsFirst(String::compareTo))
+    public int compareTo(HieroglyphDb other) {
+        return Comparator.comparing(HieroglyphDb::getStringSignid, Comparator.nullsFirst(String::compareTo))
+                .thenComparing(HieroglyphDb::getStringTransliteration, Comparator.nullsFirst(String::compareTo))
+                .thenComparing(HieroglyphDb::getStringLabel, Comparator.nullsFirst(String::compareTo))
                 .compare(this, other);
     }
 

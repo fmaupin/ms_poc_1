@@ -1,12 +1,9 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.core.enumeration;
 
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import java.util.Set;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Enumération pour les types de hiéroglyphes
  *
  * @author fmaupin, 28/12/2022
  *
@@ -27,9 +24,31 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+public enum HieroglyphEnum {
+	// ==> phonogrammes
+	UNILITERAL,
+	BILITERAL,
+	TRILITERAL,
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+	UNDEFINED;
 
+	/**
+	 * type de hiéroglyphique est-il un phonogramme ?
+	 * 
+	 * @param type: type de hiéroglyphe
+	 * @return true / false
+	 */
+	public static boolean isPhonogram(Set<HieroglyphEnum> type) {
+		return type.contains(UNILITERAL) || type.contains(BILITERAL) || type.contains(TRILITERAL);
+	}
+
+	/**
+	 * vérifier si clé existe dans énumération des types de hiéroglyphes ?
+	 * 
+	 * @param key: clé
+	 * @return true / false
+	 */
+	public static boolean isKeyExists(String key) {
+		return Common.getValue(key, HieroglyphEnum.class) != null;
+	}
 }

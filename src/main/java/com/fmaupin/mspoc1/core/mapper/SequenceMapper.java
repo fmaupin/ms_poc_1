@@ -1,17 +1,18 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.core.mapper;
 
+import java.util.Arrays;
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
 
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import com.fmaupin.mspoc1.core.Constants;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Mapper une séquence hiéroglyphique (codification Gardiner) vers une liste
+ * de signes
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 02/11/2023
  *
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -27,9 +28,11 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+public class SequenceMapper implements MapObjectToListMapper<String, String> {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+    @Override
+    public List<String> mapTo(String from) {
+        return Arrays.asList(from.replace(Constants.CARRIAGE_RETURN_REGEX, "").split(Constants.TOKEN_REGEX));
+    }
 
 }

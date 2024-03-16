@@ -1,6 +1,6 @@
 package com.fmaupin.mspoc1.model.converter;
 
-import com.fmaupin.mspoc1.model.enumeration.HieroglyphEnum;
+import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 
 import jakarta.persistence.Converter;
 

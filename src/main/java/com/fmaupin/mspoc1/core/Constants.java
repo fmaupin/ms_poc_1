@@ -1,6 +1,9 @@
 package com.fmaupin.mspoc1.core;
 
 import lombok.NoArgsConstructor;
+
+import java.util.regex.Pattern;
+
 import lombok.AccessLevel;
 
 /**
@@ -28,15 +31,57 @@ import lombok.AccessLevel;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Constants {
 
+    // global
     public static final String BASE_PACKAGE = "com.fmaupin.mspoc1";
 
+    public static final String OPERAND_OPTIONAL_REGEX = "\\[[1-9]\\d*\\]";
+
+    public static final Pattern OPERAND_PATTERN = Pattern.compile(OPERAND_OPTIONAL_REGEX);
+
+    // séparateurs
     public static final String SIGN_SPLIT_SEPARATOR = "-";
 
     public static final String TRANSLITERATION_SPLIT_SEPARATOR = ",";
 
     public static final String LABEL_SPLIT_SEPARATOR = ",";
 
+    // service executor
     public static final Integer AWAIT_TERMINATION = 1000;
 
-    public static final String NO_CACHE = "internal error : no cache %s unvailable";
+    // cache
+    public static final String NO_CACHE = "internal error : no cache %s unavailable";
+
+    // paramétres
+    public static final String INCORRECT_VALUE = "parameter-is-incorrect";
+
+    public static final String PATTERN_ERROR_WITH_PARAMETER = "%s : %s";
+
+    // fichiers json
+    public static final String JSON_FILE = "rules.json";
+
+    public static final String FILE_NOT_FOUND = "file-not-found";
+
+    public static final String READ_DATA = "read-data";
+
+    // mappers
+    public static final String TOKEN_REGEX = "[\\s]";
+
+    public static final String CARRIAGE_RETURN_REGEX = "\\r?\\n";
+
+    // règles - checkers
+    public static final String RULE_KEY_EXPRESSION = "transliteration";
+
+    public static final String ALIAS_REGEX = "[A-Za-z]{1,}[0-9]{0,}+";
+
+    public static final String RULE_COND_REGEX = "=";
+
+    public static final Pattern RULE_COND_PATTERN = Pattern.compile(RULE_COND_REGEX);
+
+    public static final String RULE_OPERAND_REGEX = "[a-z]+\\d*\\." + RULE_KEY_EXPRESSION;
+
+    public static final Pattern RULE_BASIC_OP_PATTERN = Pattern.compile(RULE_OPERAND_REGEX);
+
+    public static final Pattern RULE_OPERAND_PATTERN = Pattern.compile(OPERAND_OPTIONAL_REGEX);
+
+    public static final String RULE_INDICATOR_OPTION = "[";
 }

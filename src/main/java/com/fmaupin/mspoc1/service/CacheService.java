@@ -12,8 +12,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import com.fmaupin.mspoc1.core.Constants;
-import com.fmaupin.mspoc1.model.Hieroglyph;
-import com.fmaupin.mspoc1.model.enumeration.HieroglyphEnum;
+import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
+import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 
 import static java.util.Optional.ofNullable;
 
@@ -62,9 +62,9 @@ public class CacheService {
      * 
      * @return objet 'Hieroglyph' ou pas
      */
-    public Optional<Hieroglyph> getHieroglyph(List<String> signid) {
+    public Optional<HieroglyphDb> getHieroglyph(List<String> signid) {
         if (cache.isPresent()) {
-            Optional<ArrayList<Hieroglyph>> cachedEntries = ofNullable(
+            Optional<ArrayList<HieroglyphDb>> cachedEntries = ofNullable(
                     cache.get().get(ALL_HIEROGLYPHS_CACHE_KEY, ArrayList.class));
 
             if (cachedEntries.isPresent()) {
@@ -84,11 +84,11 @@ public class CacheService {
      * 
      * @return liste d'objets 'Hieroglyph'
      */
-    public List<Hieroglyph> getHieroglyphsFromLabel(HieroglyphEnum label) {
-        List<Hieroglyph> result = new ArrayList<>();
+    public List<HieroglyphDb> getHieroglyphsFromLabel(HieroglyphEnum label) {
+        List<HieroglyphDb> result = new ArrayList<>();
 
         if (cache.isPresent()) {
-            Optional<ArrayList<Hieroglyph>> cachedEntries = ofNullable(
+            Optional<ArrayList<HieroglyphDb>> cachedEntries = ofNullable(
                     cache.get().get(ALL_HIEROGLYPHS_CACHE_KEY, ArrayList.class));
 
             if (cachedEntries.isPresent()) {

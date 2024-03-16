@@ -1,14 +1,11 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.core.json;
 
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import com.fmaupin.mspoc1.core.exception.DataLoadingException;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Interface pour le chargement des fichiers JSON
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 01/01/2024
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -27,9 +24,8 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+@FunctionalInterface
+public interface JsonLoad {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
-
+    void load() throws DataLoadingException;
 }

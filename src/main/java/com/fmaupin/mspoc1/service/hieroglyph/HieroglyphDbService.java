@@ -1,12 +1,15 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.service.hieroglyph;
 
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import com.fmaupin.mspoc1.repository.HieroglyphRepository;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphicDbApi;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Couche service pour la gestion des hiéroglyphes
  *
  * @author fmaupin, 28/12/2022
  *
@@ -27,9 +30,22 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+@Service
+public class HieroglyphDbService implements HieroglyphicDbApi {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+    private HieroglyphRepository hieroglyphRepository;
+
+    public HieroglyphDbService(final HieroglyphRepository hieroglyphRepository) {
+        this.hieroglyphRepository = hieroglyphRepository;
+    }
+
+    /**
+     * @return liste de tous les objets "hiéroglyphes"
+     */
+    @Override
+    @Cacheable(value = "all_hieroglyphs", key = "'all_hieroglyphs'")
+    public List<HieroglyphDb> findAll() {
+        return hieroglyphRepository.findAll();
+    }
 
 }

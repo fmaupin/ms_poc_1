@@ -1,14 +1,14 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.service.hieroglyph.api;
 
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
 
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Interface pour couche service pour la gestion des données hiéroglyphiques en
+ * base de données
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 02/11/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -27,9 +27,9 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+@FunctionalInterface
+public interface HieroglyphicDbApi {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+    public List<HieroglyphDb> findAll();
 
 }
