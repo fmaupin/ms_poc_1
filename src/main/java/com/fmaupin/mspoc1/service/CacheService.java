@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
-
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
-import com.fmaupin.mspoc1.core.Constants;
 import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 
@@ -63,15 +60,11 @@ public class CacheService {
      * @return objet 'Hieroglyph' ou pas
      */
     public Optional<HieroglyphDb> getHieroglyph(List<String> signid) {
-        if (cache.isPresent()) {
-            Optional<ArrayList<HieroglyphDb>> cachedEntries = ofNullable(
-                    cache.get().get(ALL_HIEROGLYPHS_CACHE_KEY, ArrayList.class));
+        Optional<ArrayList<HieroglyphDb>> cachedEntries = ofNullable(
+                cache.get().get(ALL_HIEROGLYPHS_CACHE_KEY, ArrayList.class));
 
-            if (cachedEntries.isPresent()) {
-                return cachedEntries.get().stream().filter(h -> h.getSignid().equals(signid)).findFirst();
-            }
-        } else {
-            throw new RuntimeErrorException(new Error(String.format(Constants.NO_CACHE, ALL_HIEROGLYPHS_CACHE_ALIAS)));
+        if (cachedEntries.isPresent()) {
+            return cachedEntries.get().stream().filter(h -> h.getSignid().equals(signid)).findFirst();
         }
 
         return Optional.empty();
@@ -87,16 +80,12 @@ public class CacheService {
     public List<HieroglyphDb> getHieroglyphsFromLabel(HieroglyphEnum label) {
         List<HieroglyphDb> result = new ArrayList<>();
 
-        if (cache.isPresent()) {
-            Optional<ArrayList<HieroglyphDb>> cachedEntries = ofNullable(
-                    cache.get().get(ALL_HIEROGLYPHS_CACHE_KEY, ArrayList.class));
+        Optional<ArrayList<HieroglyphDb>> cachedEntries = ofNullable(
+                cache.get().get(ALL_HIEROGLYPHS_CACHE_KEY, ArrayList.class));
 
-            if (cachedEntries.isPresent()) {
-                result = cachedEntries.get().stream().filter(h -> h.getLabel().contains(label))
-                        .collect(Collectors.toList());
-            }
-        } else {
-            throw new RuntimeErrorException(new Error(String.format(Constants.NO_CACHE, ALL_HIEROGLYPHS_CACHE_ALIAS)));
+        if (cachedEntries.isPresent()) {
+            result = cachedEntries.get().stream().filter(h -> h.getLabel().contains(label))
+                    .collect(Collectors.toList());
         }
 
         return result;
