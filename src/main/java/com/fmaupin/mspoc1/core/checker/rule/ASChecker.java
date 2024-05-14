@@ -1,17 +1,19 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.core.checker.rule;
 
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import com.fmaupin.mspoc1.core.Constants;
+import com.fmaupin.mspoc1.core.enumeration.ExpressionEnum;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
- *
- * @author fmaupin, 28/12/2022
+ * checker pour les expressions <AS>
+ * 
+ * @author fmaupin, 17/12/2023
  *
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -27,9 +29,30 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+public class ASChecker implements CheckerInputRule<String> {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+	private Pattern pattern = Pattern.compile(Constants.ALIAS_REGEX);
+
+	@Override
+	public boolean isValid(List<String> exprs) {
+		if (exprs == null || exprs.isEmpty()) {
+			return false;
+		}
+
+		int idx = exprs.indexOf(ExpressionEnum.AS.toString());
+
+		if (idx > 0) {
+			try {
+				// vérification si un alias est fourni et si son format est conforme
+				Matcher matcher = pattern.matcher(exprs.get(idx + 1));
+
+				return matcher.find();
+			} catch (IndexOutOfBoundsException e) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 }

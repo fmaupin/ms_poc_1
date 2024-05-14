@@ -1,14 +1,13 @@
-package com.fmaupin.mspoc1.repository;
-
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+package com.fmaupin.mspoc1.core.exception;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Exception si erreur de type checked
  *
- * @author fmaupin, 28/12/2022
+ * https://www.baeldung.com/java-checked-unchecked-exceptions
+ * 
+ * https://github.com/pivovarit/throwing-function/blob/master/src/main/java/com/pivovarit/function/CheckedException.java
+ * 
+ * @author fmaupin, 29/12/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -27,9 +26,10 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+public class CheckedException extends RuntimeException {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+    public CheckedException(Throwable cause) {
+        super(cause.getMessage(), cause);
+    }
 
 }

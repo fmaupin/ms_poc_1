@@ -1,12 +1,12 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.core.enumeration;
 
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import java.util.EnumSet;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Boite à outils pour les énumérations
  *
  * @author fmaupin, 28/12/2022
  *
@@ -27,9 +27,18 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+public interface Common {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+	/**
+	 * récupération valeur de la clé dans énumération
+	 * 
+	 * @param name : clé
+	 * @param e    : énumération
+	 * @return null -> clé n'existe pas ou valeur
+	 */
+	static <E extends Enum<E>> E getValue(String name, Class<E> e) {
+		Map<String, E> lookup = EnumSet.allOf(e).stream().collect(Collectors.toMap(Enum::name, Function.identity()));
 
+		return lookup.get(name);
+	}
 }

@@ -1,14 +1,19 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.model.hieroglyph;
 
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
+import java.util.Set;
 
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * MODEL -> Informations détaillées sur hiéroglyphe
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 31/12/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -27,9 +32,16 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+public class Hieroglyph {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+    private final List<String> sign;
+
+    private final Set<String> transliteration;
+
+    private final Set<HieroglyphEnum> label;
 
 }

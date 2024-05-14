@@ -1,17 +1,18 @@
-package com.fmaupin.mspoc1.model.enumeration;
+package com.fmaupin.mspoc1.core.mapper;
 
-import java.util.EnumSet;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
- * Boite à outils pour les énumérations
+ * Interface pour mapper un objet vers une map
+ * 
+ * @author fmaupin, 17/12/2023
  *
- * @author fmaupin, 28/12/2022
- *
+ * @param <T> : objet source
+ * @param <K> : map 'key' destination
+ * @param <V> : map 'value' destination
+ * 
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -27,18 +28,7 @@ import java.util.stream.Collectors;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface Common {
+public interface MapObjectToMapMapper<T, K, V> {
 
-	/**
-	 * récupération valeur de la clé dans énumération
-	 * 
-	 * @param name : clé
-	 * @param e    : énumération
-	 * @return null -> clé n'existe pas ou valeur
-	 */
-	static <E extends Enum<E>> E getValue(String name, Class<E> e) {
-		Map<String, E> lookup = EnumSet.allOf(e).stream().collect(Collectors.toMap(Enum::name, Function.identity()));
-
-		return lookup.get(name);
-	}
+    Map<K, V> mapTo(T from);
 }

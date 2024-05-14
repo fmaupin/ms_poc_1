@@ -18,10 +18,10 @@ import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.fmaupin.mspoc1.model.Hieroglyph;
-import com.fmaupin.mspoc1.model.enumeration.HieroglyphEnum;
+import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
+import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 import com.fmaupin.mspoc1.service.CacheService;
-import com.fmaupin.mspoc1.service.HieroglyphService;
+import com.fmaupin.mspoc1.service.hieroglyph.HieroglyphDbService;
 
 /**
  * Tests sur cache données
@@ -51,7 +51,7 @@ class CacheTests {
 	@Autowired
 	private CacheService cacheService;
 
-	private List<Hieroglyph> hieroglyphs;
+	private List<HieroglyphDb> hieroglyphs;
 
 	private Map<HieroglyphEnum, Integer> labelsCount;
 
@@ -64,7 +64,7 @@ class CacheTests {
 	}
 
 	@BeforeEach
-	public void init(@Autowired HieroglyphService service, TestInfo testInfo)
+	public void init(@Autowired HieroglyphDbService service, TestInfo testInfo)
 			throws NoSuchMethodException, SecurityException {
 		cacheService.clear();
 
@@ -90,7 +90,7 @@ class CacheTests {
 
 	@Test
 	void testHieroglyphsCached() {
-		Optional<Hieroglyph> hieroglyph = ofNullable(
+		Optional<HieroglyphDb> hieroglyph = ofNullable(
 				hieroglyphs.stream().filter(h -> h.getSignid().contains(HIEROGLYPH_ID)).findFirst().get());
 
 		assertEquals(hieroglyph, cacheService.getHieroglyph(List.of(HIEROGLYPH_ID)));
