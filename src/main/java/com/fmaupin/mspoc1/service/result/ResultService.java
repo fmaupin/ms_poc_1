@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fmaupin.mspoc1.core.Constants;
-import com.fmaupin.mspoc1.model.enumeration.StatusEnum;
+import com.fmaupin.mspoc1.core.enumeration.StatusEnum;
 import com.fmaupin.mspoc1.model.message.InputMessage;
 import com.fmaupin.mspoc1.model.message.ResultProcessMessage;
 import com.fmaupin.mspoc1.service.logic.LogicService;

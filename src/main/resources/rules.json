@@ -1,0 +1,96 @@
+[
+	{
+		"name": "COMPLEMENT_PHONETIC_B1",
+		"feature": "PHONETIC_COMPLEMENTS",
+		"input": [
+			"UNILITERAL AS u1 AND u1.transliteration=b.transliteration[1]",
+			"BILITERAL AS b",
+			"UNILITERAL AS u2 AND u2.transliteration=b.transliteration[2]"
+		],
+		"output": [
+			"BILITERAL"
+		]
+	},
+	{
+		"name": "COMPLEMENT_PHONETIC_B2",
+		"feature": "PHONETIC_COMPLEMENTS",
+		"input": [
+			"BILITERAL AS b",
+			"UNILITERAL AS u1 AND u1.transliteration=b.transliteration[1]",
+			"UNILITERAL AS u2 AND u2.transliteration=b.transliteration[2]"
+		],
+		"output": [
+			"BILITERAL"
+		]
+	},
+	{
+		"name": "COMPLEMENT_PHONETIC_B3",
+		"feature": "PHONETIC_COMPLEMENTS",
+		"input": [
+			"BILITERAL AS b",
+			"UNILITERAL AS u1 AND u1.transliteration=b.transliteration[1]"
+		],
+		"output": [
+			"BILITERAL"
+		]
+	},
+	{
+		"name": "COMPLEMENT_PHONETIC_B4",
+		"feature": "PHONETIC_COMPLEMENTS",
+		"input": [
+			"BILITERAL AS b",
+			"UNILITERAL AS u2 AND u2.transliteration=b.transliteration[2]"
+		],
+		"output": [
+			"BILITERAL"
+		]
+	},
+	{
+		"name": "COMPLEMENT_PHONETIC_T1",
+		"feature": "PHONETIC_COMPLEMENTS",
+		"input": [
+			"TRILITERAL AS t",
+			"UNILITERAL AS u3 AND u3.transliteration=t.transliteration[3]"
+		],
+		"output": [
+			"TRILITERAL"
+		]
+	},
+	{
+		"name": "COMPLEMENT_PHONETIC_T2",
+		"feature": "PHONETIC_COMPLEMENTS",
+		"input": [
+			"TRILITERAL AS t",
+			"UNILITERAL AS u2 AND u2.transliteration=t.transliteration[2]",
+			"UNILITERAL AS u3 AND u3.transliteration=t.transliteration[3]"
+		],
+		"output": [
+			"TRILITERAL"
+		]
+	},
+	{
+		"name": "COMPLEMENT_PHONETIC_T3",
+		"feature": "PHONETIC_COMPLEMENTS",
+		"input": [
+			"UNILITERAL AS u1 AND u1.transliteration=t.transliteration[1]",
+			"TRILITERAL AS t",
+			"UNILITERAL AS u3 AND u3.transliteration=t.transliteration[3]"
+		],
+		"output": [
+			"TRILITERAL"
+		]
+	},
+	{
+		"name": "COMPLEMENT_PHONETIC_T4",
+		"feature": "PHONETIC_COMPLEMENTS",
+		"input": [
+			"UNILITERAL AS u1 AND u1.transliteration=t.transliteration[1]",
+			"TRILITERAL AS t",
+			"UNILITERAL AS u2 AND u2.transliteration=t.transliteration[2]",
+			"UNILITERAL AS u3 AND u3.transliteration=t.transliteration[3]"
+		],
+		"output": [
+			"TRILITERAL"
+		]
+	}
+]

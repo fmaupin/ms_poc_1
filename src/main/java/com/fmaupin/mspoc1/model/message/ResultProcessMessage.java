@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import com.fmaupin.mspoc1.model.enumeration.StatusEnum;
+import com.fmaupin.mspoc1.core.enumeration.StatusEnum;
 
 import lombok.Builder;
 import lombok.Generated;
@@ -36,8 +36,8 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@Builder
 @ToString
+@Builder
 public class ResultProcessMessage implements Comparable<ResultProcessMessage> {
 
     private InputMessage msg;

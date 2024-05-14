@@ -1,14 +1,9 @@
-package com.fmaupin.mspoc1.repository;
-
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+package com.fmaupin.mspoc1.core.enumeration;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Enumération pour les statuts du traitement d'un message
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 29/08/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -27,9 +22,8 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
-
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
-
+public enum StatusEnum {
+    IN_PROGRESS,
+    COMPLETE,
+    SENDED;
 }

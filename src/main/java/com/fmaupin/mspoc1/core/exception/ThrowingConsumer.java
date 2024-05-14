@@ -1,14 +1,15 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.core.exception;
 
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import java.util.function.Consumer;
+import static java.util.Objects.requireNonNull;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * wrapper qui prend en charge la gestion des exceptions pour toute expression
+ * lambda qui ne retourne pas de résultat
  *
- * @author fmaupin, 28/12/2022
+ * https://www.baeldung.com/java-lambda-exceptions
+ * 
+ * @author fmaupin, 29/12/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -27,9 +28,21 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+@FunctionalInterface
+public interface ThrowingConsumer<T, E extends Exception> {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+    public void accept(T t) throws E;
+
+    static <T> Consumer<T> unchecked(ThrowingConsumer<? super T, ?> consumer) {
+        requireNonNull(consumer);
+
+        return t -> {
+            try {
+                consumer.accept(t);
+            } catch (Exception e) {
+                throw new CheckedException(e);
+            }
+        };
+    }
 
 }

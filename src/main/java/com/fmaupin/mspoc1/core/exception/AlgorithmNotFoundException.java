@@ -1,14 +1,11 @@
-package com.fmaupin.mspoc1.repository;
+package com.fmaupin.mspoc1.core.exception;
 
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import com.fmaupin.mspoc1.core.enumeration.AlgorithmEnum;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
+ * Exception si l'algorithme est introuvable
  *
- * @author fmaupin, 28/12/2022
+ * @author fmaupin, 03/11/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -27,9 +24,10 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+public class AlgorithmNotFoundException extends GenericException {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+    public AlgorithmNotFoundException(AlgorithmEnum feature) {
+        super("algorithm-not-found", feature.name());
+    }
 
 }

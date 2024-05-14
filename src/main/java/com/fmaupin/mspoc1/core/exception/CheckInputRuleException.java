@@ -1,17 +1,12 @@
-package com.fmaupin.mspoc1.repository;
-
-import java.util.List;
-import org.springframework.data.repository.CrudRepository;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+package com.fmaupin.mspoc1.core.exception;
 
 /**
- * Couche repository pour la gestion des hiéroglyphes
- *
- * @author fmaupin, 28/12/2022
- *
+ * Exception lors vérification d'une règle
+ * 
+ * @author fmaupin, 17/12/2023
+ * 
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -27,9 +22,10 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface HieroglyphRepository extends CrudRepository<HieroglyphDb, Long> {
+public class CheckInputRuleException extends GenericException {
 
-    @SuppressWarnings("null")
-    List<HieroglyphDb> findAll();
+	public CheckInputRuleException(String checker) {
+		super("input-rule-check-not-valid", checker);
+	}
 
 }
