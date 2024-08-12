@@ -1,5 +1,7 @@
 package com.fmaupin.mspoc1.core.enumeration;
 
+import lombok.Generated;
+
 /**
  * Enumération pour les statuts du traitement d'un message
  *
@@ -22,6 +24,7 @@ package com.fmaupin.mspoc1.core.enumeration;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
+@Generated
 public enum StatusEnum {
     IN_PROGRESS,
     COMPLETE,

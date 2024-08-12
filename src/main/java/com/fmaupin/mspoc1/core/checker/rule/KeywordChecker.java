@@ -31,7 +31,7 @@ public class KeywordChecker implements CheckerInputRule<String> {
 
 	@Override
 	public boolean isValid(List<String> exprs) {
-		if (exprs == null || exprs.isEmpty()) {
+		if (exprs == null || exprs.get(0).equals("")) {
 			return false;
 		}
 

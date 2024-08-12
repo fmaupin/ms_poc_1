@@ -17,6 +17,7 @@ import com.fmaupin.mspoc1.core.enumeration.AlgorithmEnum;
 import com.fmaupin.mspoc1.core.enumeration.ExpressionEnum;
 import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.core.exception.CheckInputRuleException;
+import com.fmaupin.mspoc1.core.exception.ThrowingConsumer;
 import com.fmaupin.mspoc1.core.mapper.InputRuleMapper;
 
 import javafx.util.Pair;
@@ -77,24 +78,17 @@ public class Rule {
     private List<Map<ExpressionEnum, Object>> input;
 
     @JsonSetter("input")
-    public void setInput(List<String> input) {
+    public void setInput(List<String> input) throws CheckInputRuleException {
         this.input = new ArrayList<>();
 
-        input.forEach(i -> {
+        input.forEach(ThrowingConsumer.wrapper(i -> {
             // vérifier et convertir règles en liste d'expressions
             Map<ExpressionEnum, Object> exp = inputRuleMapper.mapTo(i);
             this.input.add(exp);
-        });
+        }));
 
         // vérifier toutes les règles
-        try {
-            checkerInputRuleManager.apply(this.input);
-        } catch (CheckInputRuleException e) {
-            // erreur FATALE => toutes les règles doivent être valides !
-            log.error(e.getLocalizedMessage());
-
-            System.exit(2);
-        }
+        checkerInputRuleManager.apply(this.input);
     }
 
     private List<String> output;
@@ -277,7 +271,7 @@ public class Rule {
     }
 
     /**
-     * retourne valeur pour chaque règle valueet expression 'key'
+     * retourne valeur pour chaque règle value et expression 'key'
      * 
      * @param indexInput : index des règles input
      * @param key        : expression key

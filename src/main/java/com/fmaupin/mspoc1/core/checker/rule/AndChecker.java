@@ -30,9 +30,11 @@ import com.fmaupin.mspoc1.core.enumeration.ExpressionEnum;
  */
 public class AndChecker implements CheckerInputRule<String> {
 
+	private static final int OPERANDS_NUMBER = 2;
+
 	@Override
 	public boolean isValid(List<String> exprs) {
-		if (exprs == null || exprs.isEmpty()) {
+		if (exprs == null || exprs.get(0).equals("")) {
 			return false;
 		}
 
@@ -45,13 +47,16 @@ public class AndChecker implements CheckerInputRule<String> {
 					return false;
 				}
 
-				// vérification de chaque opérande dans l'expression de type condition
+				// vérification du format de chaque opérande dans l'expression de type condition
 				// format opérande : <alias> + "." + <expression key> + ["[<index dans
 				// expression key>]"] avec index > 0
+				int opNumber = 1;
 				for (String operand : exprs.get(idx + 1).split(Constants.RULE_COND_REGEX)) {
-					if (!isValidOperand(operand)) {
+					if (!isValidOperand(operand, opNumber)) {
 						return false;
 					}
+
+					opNumber++;
 				}
 			} catch (IndexOutOfBoundsException e) {
 				return false;
@@ -68,31 +73,37 @@ public class AndChecker implements CheckerInputRule<String> {
 	 * @return true / false
 	 */
 	private boolean isCondPattern(String expression) {
-		// vérification si nous avons une seule expression de type condition
+		// vérification si nous avons une expression de type condition
 		Matcher matcher = Constants.RULE_COND_PATTERN.matcher(expression);
 
 		// seulement deux opérandes sont permises
 		String[] operands = expression.split(Constants.RULE_COND_REGEX);
 
-		return matcher.find() && operands.length == 2;
+		return matcher.find() && operands.length == OPERANDS_NUMBER;
 	}
 
 	/**
 	 * l'opérande est-elle valide ?
 	 *
-	 * @param operand : opérande à analyser
+	 * @param operand  : opérande à analyser
+	 * @param opNumber : numéro opérande dans expression
+	 * 
 	 * @return true / false
 	 */
-	private boolean isValidOperand(String operand) {
-		// vérification de l'expression de base sans option
+	private boolean isValidOperand(String operand, int opNumber) {
+		// vérification si préfixe expression
 		Matcher matcher = Constants.RULE_BASIC_OP_PATTERN.matcher(operand);
 
 		if (!matcher.find()) {
 			return false;
 		}
 
-		// vérification de l'expression avec option
-		if (operand.contains(Constants.RULE_INDICATOR_OPTION)) {
+		// vérification format index si opérande est indexée
+		if (opNumber == OPERANDS_NUMBER) {
+			if (!operand.contains(Constants.RULE_INDICATOR_OPTION)) {
+				return false;
+			}
+
 			return Constants.OPERAND_PATTERN.matcher(operand).find();
 		}
 

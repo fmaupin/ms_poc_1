@@ -49,7 +49,7 @@ public class JsonLoader<T> {
     }
 
     /**
-     * @return a list of objects extract from json file
+     * @return liste d'objets extraits à partir d'un fichier JSON
      * 
      * @throws IOException
      */
@@ -66,11 +66,11 @@ public class JsonLoader<T> {
     }
 
     /**
-     * get file from classpath, resources folder
+     * lire contenu fichier (dans classpath, dossier 'resources')
      * 
-     * @param fileName : name of json file
+     * @param fileName : nom du fichier JSON
      * 
-     * @return file
+     * @return inputStream
      */
     public static InputStream getFileFromResources(String fileName) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

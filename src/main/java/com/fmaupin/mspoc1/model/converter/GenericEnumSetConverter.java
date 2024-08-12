@@ -1,15 +1,14 @@
 package com.fmaupin.mspoc1.model.converter;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
-
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import lombok.Generated;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Converter générique : String <-> Set<Enum>
@@ -45,6 +44,7 @@ public abstract class GenericEnumSetConverter<E extends Enum<E>> implements Attr
     }
 
     @Override
+    @Generated
     public String convertToDatabaseColumn(final Set<E> list) {
         if (list.isEmpty()) {
             return null;
@@ -57,9 +57,7 @@ public abstract class GenericEnumSetConverter<E extends Enum<E>> implements Attr
 
     @Override
     public Set<E> convertToEntityAttribute(final String joined) {
-        if (StringUtils.isBlank(joined)) {
-            return Collections.emptySet();
-        }
+        requireNonNull(joined);
 
         List<E> values = Stream.of(joined.split(SPLIT_SEPARATOR))
                 .map(e -> Enum.valueOf(clazz, e))

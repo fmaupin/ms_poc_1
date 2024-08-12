@@ -1,9 +1,15 @@
-package com.fmaupin.mspoc1.core.exception;
+package com.fmaupin.mspoc1.annotations;
+
+import static java.lang.annotation.ElementType.METHOD;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
- * Exception si erreur de chargement de données
+ * Annotation pour testing cache données
  *
- * @author fmaupin, 01/01/2024
+ * @author fmaupin, 02/04/2024
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -20,11 +26,10 @@ package com.fmaupin.mspoc1.core.exception;
  *        You should have received a copy of the GNU Lesser General Public
  *        License along with this program; if not, write to the Free Software
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 
- **/
-public class DataLoadingException extends GenericException {
-
-    public DataLoadingException(Exception exception) {
-        super(exception);
-    }
+ *        02110-1301, USA.
+ */
+@Documented
+@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+@Target({ METHOD })
+public @interface SkipInit {
 }

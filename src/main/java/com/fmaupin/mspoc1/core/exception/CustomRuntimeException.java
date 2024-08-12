@@ -1,20 +1,12 @@
-package com.fmaupin.mspoc1.core.mapper;
-
-import java.util.Map;
-
-import com.fmaupin.mspoc1.core.exception.CheckInputRuleException;
+package com.fmaupin.mspoc1.core.exception;
 
 /**
- * Interface pour mapper un objet vers une map
+ * Exception de type runtime
  * 
- * @author fmaupin, 17/12/2023
+ * @author fmaupin, 29/12/2023
  *
- * @param <T> : objet source
- * @param <K> : map 'key' destination
- * @param <V> : map 'value' destination
- * 
  * @since 0.0.1-SNAPSHOT
- * 
+ *
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -30,7 +22,10 @@ import com.fmaupin.mspoc1.core.exception.CheckInputRuleException;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface MapObjectToMapMapper<T, K, V> {
+public class CustomRuntimeException extends RuntimeException {
 
-    Map<K, V> mapTo(T from) throws CheckInputRuleException;
+    public CustomRuntimeException(Throwable cause) {
+        super(cause.getMessage(), cause);
+    }
+
 }

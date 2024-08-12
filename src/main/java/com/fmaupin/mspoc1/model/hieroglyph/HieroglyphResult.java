@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true, includeFieldNames = true)
 @Slf4j
 public class HieroglyphResult extends Hieroglyph {
 

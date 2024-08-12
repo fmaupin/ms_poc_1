@@ -19,6 +19,7 @@ import com.fmaupin.mspoc1.service.result.ResultService;
 import com.rabbitmq.client.Channel;
 
 import jakarta.annotation.PreDestroy;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -47,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @EntityScan({ Constants.BASE_PACKAGE })
 @EnableCaching
 @Slf4j
+@Generated
 public class Application implements CommandLineRunner {
 
 	private ResultService resultService;
@@ -125,5 +127,4 @@ public class Application implements CommandLineRunner {
 	public void preDestroy() {
 		resultService.shutdown();
 	}
-
 }

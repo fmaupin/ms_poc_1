@@ -2,12 +2,13 @@ package com.fmaupin.mspoc1.model.converter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Converter : String <-> List<String>
@@ -38,6 +39,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
     private static final String SPLIT_SEPARATOR = ",";
 
     @Override
+    @Generated
     public String convertToDatabaseColumn(final List<String> list) {
         if (list.isEmpty()) {
             return null;
@@ -48,9 +50,7 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
 
     @Override
     public List<String> convertToEntityAttribute(final String joined) {
-        if (joined == null) {
-            return Collections.emptyList();
-        }
+        requireNonNull(joined);
 
         return new ArrayList<>(Arrays.asList(joined.split(SPLIT_SEPARATOR)));
     }

@@ -72,4 +72,15 @@ public class CheckerInputRuleManager<T> {
 		}
 	}
 
+	/**
+	 * supprimer tous les checkers
+	 * 
+	 * @return instance courante
+	 */
+	public CheckerInputRuleManager<T> removeAllcheckers() {
+		checkers.clear();
+
+		return this;
+	}
+
 }
