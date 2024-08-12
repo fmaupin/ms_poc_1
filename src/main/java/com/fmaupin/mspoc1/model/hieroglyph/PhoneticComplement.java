@@ -10,6 +10,7 @@ import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.model.Rule;
 import com.fmaupin.mspoc1.core.enumeration.ExpressionEnum;
 
+import lombok.Generated;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -40,6 +41,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @RequiredArgsConstructor
+@Generated
 public class PhoneticComplement {
 
     private static final String IDX_TRANSLITERATION_REGEX = "[\\[\\]]";

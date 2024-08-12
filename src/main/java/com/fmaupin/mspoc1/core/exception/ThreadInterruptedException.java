@@ -1,5 +1,7 @@
 package com.fmaupin.mspoc1.core.exception;
 
+import lombok.Generated;
+
 /**
  * Exception si thread interrompu
  * 
@@ -22,6 +24,7 @@ package com.fmaupin.mspoc1.core.exception;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
+@Generated
 public class ThreadInterruptedException extends RuntimeException {
 
     public ThreadInterruptedException(Throwable cause) {

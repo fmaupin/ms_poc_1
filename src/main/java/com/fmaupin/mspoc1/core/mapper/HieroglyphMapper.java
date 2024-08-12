@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
-import com.fmaupin.mspoc1.core.exception.ThrowingConsumer;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
 import com.fmaupin.mspoc1.service.hieroglyph.api.PhonogramApi;
 
@@ -48,7 +47,7 @@ public class HieroglyphMapper implements MapListToListMapper<String, HieroglyphR
         List<HieroglyphResult> map = new ArrayList<>();
         idx = 0;
 
-        from.forEach(ThrowingConsumer.unchecked(token -> {
+        from.forEach(token -> {
             Set<HieroglyphEnum> phonogramtypes = phonogramService.getTypeFromSign(token);
 
             if (HieroglyphEnum.isPhonogram(phonogramtypes)) {
@@ -63,9 +62,8 @@ public class HieroglyphMapper implements MapListToListMapper<String, HieroglyphR
             }
 
             idx++;
-        }));
+        });
 
         return map;
     }
-
 }

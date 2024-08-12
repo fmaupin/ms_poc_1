@@ -1,20 +1,18 @@
-package com.fmaupin.mspoc1.core.mapper;
+package com.fmaupin.mspoc1.annotations;
 
-import java.util.Map;
+import static java.lang.annotation.ElementType.METHOD;
 
-import com.fmaupin.mspoc1.core.exception.CheckInputRuleException;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
- * Interface pour mapper un objet vers une map
- * 
- * @author fmaupin, 17/12/2023
+ * Annotation pour testing sequence mapper
  *
- * @param <T> : objet source
- * @param <K> : map 'key' destination
- * @param <V> : map 'value' destination
- * 
+ * @author fmaupin, 02/04/2024
+ *
  * @since 0.0.1-SNAPSHOT
- * 
+ *
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -30,7 +28,8 @@ import com.fmaupin.mspoc1.core.exception.CheckInputRuleException;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface MapObjectToMapMapper<T, K, V> {
-
-    Map<K, V> mapTo(T from) throws CheckInputRuleException;
+@Documented
+@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+@Target({ METHOD })
+public @interface SMapper {
 }

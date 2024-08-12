@@ -1,0 +1,14 @@
+[
+    {
+        "name": "COMPLEMENT_PHONETIC_B1",
+        "feature": "PHONETIC_COMPLEMENTS",
+        "input": [
+            "UNILITERAL AS u1 AND u1.transliteration=b.transliteration[1]",
+            "BILITERAL AS b",
+            "UNILITERAL AS u2 AND u2.transliteration=b.transliteration[2]"
+        ],
+        "output": [
+            "BILITERAL"
+        ]
+    }
+]

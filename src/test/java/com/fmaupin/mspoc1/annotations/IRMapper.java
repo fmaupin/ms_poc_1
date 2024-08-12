@@ -1,11 +1,15 @@
-package com.fmaupin.mspoc1.core.json;
+package com.fmaupin.mspoc1.annotations;
 
-import com.fmaupin.mspoc1.core.exception.DataLoadingException;
+import static java.lang.annotation.ElementType.METHOD;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
- * Interface pour le chargement des fichiers JSON
+ * Annotation pour testing input rule mapper
  *
- * @author fmaupin, 01/01/2024
+ * @author fmaupin, 02/04/2024
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -24,8 +28,8 @@ import com.fmaupin.mspoc1.core.exception.DataLoadingException;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@FunctionalInterface
-public interface JsonLoad {
-
-    void load() throws DataLoadingException;
+@Documented
+@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+@Target({ METHOD })
+public @interface IRMapper {
 }

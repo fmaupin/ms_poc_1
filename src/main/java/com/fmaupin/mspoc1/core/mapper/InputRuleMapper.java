@@ -1,5 +1,7 @@
 package com.fmaupin.mspoc1.core.mapper;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -15,6 +17,7 @@ import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.core.exception.CheckInputRuleException;
 import com.fmaupin.mspoc1.core.enumeration.ExpressionEnum;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -42,6 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class InputRuleMapper implements MapObjectToMapMapper<String, ExpressionEnum, Object> {
 
+    @Getter
     private CheckerInputRuleManager<String> checkerInputRuleManager = new CheckerInputRuleManager<>();
 
     public InputRuleMapper() {
@@ -50,7 +54,9 @@ public class InputRuleMapper implements MapObjectToMapMapper<String, ExpressionE
     }
 
     @Override
-    public Map<ExpressionEnum, Object> mapTo(String from) {
+    public Map<ExpressionEnum, Object> mapTo(String from) throws CheckInputRuleException {
+        requireNonNull(from);
+
         // split la règle input en tokens
         List<String> exprs = Arrays.asList(from.split(Constants.TOKEN_REGEX));
 
@@ -58,10 +64,9 @@ public class InputRuleMapper implements MapObjectToMapMapper<String, ExpressionE
         try {
             checkerInputRuleManager.apply(exprs);
         } catch (CheckInputRuleException e) {
-            // erreur FATALE => les règles doivent être valides !
+            // erreur => les règles doivent être valides !
             log.error(e.getMessage());
-
-            System.exit(2);
+            throw e;
         }
 
         // map les expressions

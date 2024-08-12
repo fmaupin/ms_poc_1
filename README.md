@@ -31,11 +31,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments="--my.password=<my password>"
 ```
 
 ```
-<<<<<<< Updated upstream
-mvn test -Dmy.password=<my password>
-=======
 mvn jacoco:prepare-agent test -Dmy.password=<my password> install jacoco:report
->>>>>>> Stashed changes
 
 mvn clean install -Dmy.password=<my password>
 ```

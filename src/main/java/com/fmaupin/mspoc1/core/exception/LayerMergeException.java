@@ -1,16 +1,12 @@
 package com.fmaupin.mspoc1.core.exception;
 
 /**
- * Exception si erreur de type checked
- *
- * https://www.baeldung.com/java-checked-unchecked-exceptions
+ * Exception si erreur sur merge layers
  * 
- * https://github.com/pivovarit/throwing-function/blob/master/src/main/java/com/pivovarit/function/CheckedException.java
- * 
- * @author fmaupin, 29/12/2023
+ * @author fmaupin, 03/08/2024
  *
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -26,10 +22,9 @@ package com.fmaupin.mspoc1.core.exception;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public class CheckedException extends RuntimeException {
+public class LayerMergeException extends GenericException {
 
-    public CheckedException(Throwable cause) {
-        super(cause.getMessage(), cause);
+    public LayerMergeException(String layerName) {
+        super("layer-merge-error", layerName);
     }
-
 }

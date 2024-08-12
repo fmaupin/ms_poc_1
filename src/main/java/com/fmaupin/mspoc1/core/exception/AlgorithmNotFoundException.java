@@ -2,6 +2,8 @@ package com.fmaupin.mspoc1.core.exception;
 
 import com.fmaupin.mspoc1.core.enumeration.AlgorithmEnum;
 
+import lombok.Generated;
+
 /**
  * Exception si l'algorithme est introuvable
  *
@@ -24,6 +26,7 @@ import com.fmaupin.mspoc1.core.enumeration.AlgorithmEnum;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
+@Generated
 public class AlgorithmNotFoundException extends GenericException {
 
     public AlgorithmNotFoundException(AlgorithmEnum feature) {

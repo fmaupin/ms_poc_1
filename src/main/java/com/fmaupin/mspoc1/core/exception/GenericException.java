@@ -26,16 +26,7 @@ import com.fmaupin.mspoc1.core.Constants;
  */
 public class GenericException extends Exception {
 
-    public GenericException(String error) {
-        super(error);
-    }
-
     public GenericException(String error, String param) {
         super(String.format(Constants.PATTERN_ERROR_WITH_PARAMETER, error, param));
     }
-
-    public GenericException(Exception ex) {
-        super(ex);
-    }
-
 }

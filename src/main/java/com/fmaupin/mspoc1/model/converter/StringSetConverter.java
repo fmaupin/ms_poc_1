@@ -1,16 +1,15 @@
 package com.fmaupin.mspoc1.model.converter;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
-
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Converter : String <-> Set<String>
@@ -41,6 +40,7 @@ public class StringSetConverter implements AttributeConverter<Set<String>, Strin
     private static final String SPLIT_SEPARATOR = ",";
 
     @Override
+    @Generated
     public String convertToDatabaseColumn(final Set<String> list) {
         if (list.isEmpty()) {
             return null;
@@ -51,9 +51,7 @@ public class StringSetConverter implements AttributeConverter<Set<String>, Strin
 
     @Override
     public Set<String> convertToEntityAttribute(final String joined) {
-        if (StringUtils.isBlank(joined)) {
-            return Collections.emptySet();
-        }
+        requireNonNull(joined);
 
         List<String> values = Stream.of(joined.split(SPLIT_SEPARATOR))
                 .collect(Collectors.toList());

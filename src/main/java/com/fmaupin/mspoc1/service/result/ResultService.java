@@ -25,6 +25,7 @@ import com.fmaupin.mspoc1.model.message.InputMessage;
 import com.fmaupin.mspoc1.model.message.ResultProcessMessage;
 import com.fmaupin.mspoc1.service.logic.LogicService;
 
+import lombok.Generated;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
+@Generated
 public class ResultService implements Result {
 
     @Value("${mspoc1.rabbitmq.out.exchange}")

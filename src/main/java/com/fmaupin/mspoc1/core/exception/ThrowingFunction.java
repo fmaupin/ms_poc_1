@@ -1,21 +1,23 @@
 package com.fmaupin.mspoc1.core.exception;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 import static java.util.Objects.requireNonNull;
 
 /**
  * wrapper qui prend en charge la gestion des exceptions lors appel fonction
  * dans expression lambda
- * 
- * Fonction avec un seul paramètre et pas de valeur de retour
  *
+ * Fonction avec un seul paramètre et valeur de retour
+ * 
  * https://www.baeldung.com/java-lambda-exceptions
  * 
  * @param <T> type paramètre fonction
  * 
  * @param <E> type exception 'checked' levée
  * 
- * @author fmaupin, 29/12/2023
+ * @param <R> type valeur retournée
+ * 
+ * @author fmaupin, 04/08/2024
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -35,16 +37,15 @@ import static java.util.Objects.requireNonNull;
  *        02110-1301, USA.
  */
 @FunctionalInterface
-public interface ThrowingConsumer<T, E extends Exception> {
+public interface ThrowingFunction<T, R, E extends Exception> {
+    R apply(T arg) throws E;
 
-    public void accept(T t) throws E;
-
-    static <T> Consumer<T> wrapper(ThrowingConsumer<? super T, ?> consumer) {
-        requireNonNull(consumer);
+    static <T, R> Function<T, R> wrapper(final ThrowingFunction<? super T, ? extends R, ?> function) {
+        requireNonNull(function);
 
         return t -> {
             try {
-                consumer.accept(t);
+                return function.apply(t);
             } catch (final Exception e) {
                 throw new CustomRuntimeException(e);
             }

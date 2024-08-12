@@ -1,11 +1,8 @@
 package com.fmaupin.mspoc1;
 
-import static java.lang.annotation.ElementType.METHOD;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static java.util.Optional.ofNullable;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +15,7 @@ import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.fmaupin.mspoc1.annotations.SkipInit;
 import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 import com.fmaupin.mspoc1.service.CacheService;
@@ -57,15 +55,9 @@ class CacheTests {
 
 	private static final String HIEROGLYPH_ID = "G1";
 
-	// annotation customisée -> pas de chargement de data
-	@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-	@Target({ METHOD })
-	@interface SkipInit {
-	}
-
 	@BeforeEach
-	public void init(@Autowired HieroglyphDbService service, TestInfo testInfo)
-			throws NoSuchMethodException, SecurityException {
+	void init(@Autowired HieroglyphDbService service, TestInfo testInfo)
+			throws SecurityException {
 		cacheService.clear();
 
 		SkipInit skipInit = testInfo.getTestMethod().get().getAnnotation(SkipInit.class);
