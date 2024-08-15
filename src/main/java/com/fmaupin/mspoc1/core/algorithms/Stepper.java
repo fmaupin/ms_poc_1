@@ -1,18 +1,14 @@
-package com.fmaupin.mspoc1.service.hieroglyph.api;
+package com.fmaupin.mspoc1.core.algorithms;
 
 import java.util.List;
-import com.fmaupin.mspoc1.core.exception.AlgorithmNotFoundException;
-import com.fmaupin.mspoc1.core.exception.ExecuteAlgorithmException;
-import com.fmaupin.mspoc1.core.exception.InputAlgorithmException;
-import com.fmaupin.mspoc1.model.hieroglyph.PhoneticComplement;
 
 /**
- * Interface pour couche service pour la gestion des phonogrammes
+ * Interface pour steppers (étape traitement d'un algorithme)
  *
- * @author fmaupin, 02/11/2023
+ * @author fmaupin, 12/08/2024
  *
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -28,11 +24,13 @@ import com.fmaupin.mspoc1.model.hieroglyph.PhoneticComplement;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface PhonogramApi {
+public interface Stepper {
 
-        public int numberOfPhoneticComplements(String sequence)
-                        throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException;
+    public boolean init(List<?> input);
 
-        public List<PhoneticComplement> getPhoneticComplements(String sequence)
-                        throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException;
+    public List<?> play(); // NOSONAR
+
+    default String getName() {
+        return this.getClass().getSimpleName();
+    }
 }

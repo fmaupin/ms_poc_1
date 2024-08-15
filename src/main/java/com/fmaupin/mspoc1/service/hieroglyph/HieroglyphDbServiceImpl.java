@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 import com.fmaupin.mspoc1.repository.HieroglyphRepository;
-import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphicDbApi;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphDbApi;
 
 /**
- * Couche service pour la gestion des hiéroglyphes
+ * Couche service pour la gestion des hiéroglyphes en base de données
  *
  * @author fmaupin, 28/12/2022
  *
@@ -31,11 +31,11 @@ import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphicDbApi;
  *        02110-1301, USA.
  */
 @Service
-public class HieroglyphDbService implements HieroglyphicDbApi {
+public class HieroglyphDbServiceImpl implements HieroglyphDbApi {
 
     private HieroglyphRepository hieroglyphRepository;
 
-    public HieroglyphDbService(final HieroglyphRepository hieroglyphRepository) {
+    public HieroglyphDbServiceImpl(final HieroglyphRepository hieroglyphRepository) {
         this.hieroglyphRepository = hieroglyphRepository;
     }
 

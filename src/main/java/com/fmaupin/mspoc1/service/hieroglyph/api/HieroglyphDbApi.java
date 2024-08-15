@@ -1,13 +1,12 @@
 package com.fmaupin.mspoc1.service.hieroglyph.api;
 
 import java.util.List;
-import com.fmaupin.mspoc1.core.exception.AlgorithmNotFoundException;
-import com.fmaupin.mspoc1.core.exception.ExecuteAlgorithmException;
-import com.fmaupin.mspoc1.core.exception.InputAlgorithmException;
-import com.fmaupin.mspoc1.model.hieroglyph.PhoneticComplement;
+
+import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 
 /**
- * Interface pour couche service pour la gestion des phonogrammes
+ * Interface pour couche service pour la gestion des données hiéroglyphiques en
+ * base de données
  *
  * @author fmaupin, 02/11/2023
  *
@@ -28,11 +27,9 @@ import com.fmaupin.mspoc1.model.hieroglyph.PhoneticComplement;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface PhonogramApi {
+@FunctionalInterface
+public interface HieroglyphDbApi {
 
-        public int numberOfPhoneticComplements(String sequence)
-                        throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException;
+    public List<HieroglyphDb> findAll();
 
-        public List<PhoneticComplement> getPhoneticComplements(String sequence)
-                        throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException;
 }

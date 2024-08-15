@@ -27,16 +27,18 @@ Exécution du broker
 ### Exécution, test & install app
 
 ```
-mvn spring-boot:run -Dspring-boot.run.arguments="--my.password=<my password>"
+mvn spring-boot:run -Dspring-boot.run.arguments="--my.password.db=<my password db> --my.password.broker=<my password broker>"
 ```
 
 ```
-mvn jacoco:prepare-agent test -Dmy.password=<my password> install jacoco:report
+mvn jacoco:prepare-agent test -Dmy.password.db=<my password db> -Dmy.password.broker=<my password broker> install jacoco:report
 
-mvn clean install -Dmy.password=<my password>
+mvn clean install -Dmy.password.db=<my password db> -Dmy.password.broker=<my password broker>
 ```
 
-La valeur de "my password" va dépendre du password généré par le projet [ms_poc_1_rabbitMQ](https://github.com/fmaupin/ms_poc_1_rabbitMQ). 
+La valeur de "my password db" correspond au mot de passe pour la base de données.
+
+La valeur de "my password broker" va dépendre du password généré par le projet [ms_poc_1_rabbitMQ](https://github.com/fmaupin/ms_poc_1_rabbitMQ). 
 
 ***
 
