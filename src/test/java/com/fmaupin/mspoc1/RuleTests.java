@@ -53,13 +53,19 @@ class RuleTests {
     private static JsonLoader<Rule> jsonLoader = new JsonLoader<>(new TypeReference<List<Rule>>() {
     });
 
-    private static int ruleDepth;
+    private static int ruleMinDepth = 2;
+
+    private static int ruleMaxDepth = 4;
+
+    private static int rule0Depth = 3;
+
+    private static int ruleBiliteralMinDepth = 2;
+
+    private static int ruleBiliteralMaxDepth = 3;
 
     @BeforeAll
     static void init() throws IOException {
         result = jsonLoader.loadList(JSON_FILE);
-
-        ruleDepth = result.get(0).getInput().size();
     }
 
     @Test
@@ -78,22 +84,23 @@ class RuleTests {
 
         result.stream().forEach(r -> output1.add(new Pair<>(r, r.getKeywordPattern())));
 
-        result.stream().filter(r -> r.getInput().size() == ruleDepth)
+        result.stream().filter(r -> r.getInput().size() == ruleMinDepth)
                 .forEach(r -> output2.add(new Pair<>(r, r.getKeywordPattern())));
 
         assertEquals(output1, Rule.getPattern(result));
-        assertEquals(output2, Rule.getPattern(result, ruleDepth));
+        assertEquals(output2, Rule.getPattern(result, ruleMinDepth));
     }
 
     @Test
     void testGetDepth() {
-        assertEquals(new Pair<>(ruleDepth, ruleDepth), Rule.getDepth(result));
+        assertEquals(new Pair<>(ruleMinDepth, ruleMaxDepth), Rule.getDepth(result));
 
         Predicate<Rule> filter = r -> r.getName().equals("COMPLEMENT_PHONETIC_B1");
 
-        assertEquals(new Pair<>(ruleDepth, ruleDepth), Rule.getDepth(result, filter));
+        assertEquals(new Pair<>(rule0Depth, rule0Depth), Rule.getDepth(result, filter));
 
-        assertEquals(new Pair<>(ruleDepth, ruleDepth), Rule.getFilteredDepth(result, HieroglyphEnum.BILITERAL));
+        assertEquals(new Pair<>(ruleBiliteralMinDepth, ruleBiliteralMaxDepth),
+                Rule.getFilteredDepth(result, HieroglyphEnum.BILITERAL));
     }
 
     @Test
