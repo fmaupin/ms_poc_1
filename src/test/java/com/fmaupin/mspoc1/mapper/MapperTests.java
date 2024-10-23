@@ -31,8 +31,7 @@ import com.fmaupin.mspoc1.core.mapper.HieroglyphMapper;
 import com.fmaupin.mspoc1.core.mapper.InputRuleMapper;
 import com.fmaupin.mspoc1.core.mapper.SequenceMapper;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
-import com.fmaupin.mspoc1.service.hieroglyph.api.PhonogramApi;
-
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphApi;
 import com.fmaupin.mspoc1.annotations.HMapper;
 import com.fmaupin.mspoc1.annotations.IRMapper;
 import com.fmaupin.mspoc1.annotations.SMapper;
@@ -60,7 +59,7 @@ import com.fmaupin.mspoc1.annotations.SMapper;
  *        02110-1301, USA.
  */
 @SpringBootTest
-@Import(MockPhonogramService.class)
+@Import(MockHieroglyphService.class)
 class MapperTests {
 
         HieroglyphMapper hieroglyphMapper;
@@ -93,7 +92,7 @@ class MapperTests {
         }
 
         @BeforeEach
-        void init(@Autowired PhonogramApi phonogramService, TestInfo testInfo) {
+        void init(@Autowired HieroglyphApi hieroglyphService, TestInfo testInfo) {
                 HMapper hieroglyphMapperTest = testInfo.getTestMethod().get().getAnnotation(HMapper.class);
 
                 IRMapper inputRuleMapperTest = testInfo.getTestMethod().get().getAnnotation(IRMapper.class);
@@ -101,7 +100,7 @@ class MapperTests {
                 SMapper sequenceMapperTest = testInfo.getTestMethod().get().getAnnotation(SMapper.class);
 
                 if (hieroglyphMapperTest != null) {
-                        hieroglyphMapper = new HieroglyphMapper(phonogramService);
+                        hieroglyphMapper = new HieroglyphMapper(hieroglyphService);
                 }
 
                 if (inputRuleMapperTest != null) {

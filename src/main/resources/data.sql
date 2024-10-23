@@ -32,7 +32,7 @@ INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('D46', 'd', 'UNI
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('I10', 'd_', 'UNILITERAL');
 
 /* BILITERES */
-INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('O29', 'a3', 'BILITERAL');
+INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('O29', 'c3', 'BILITERAL');
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('V4', 'w3', 'BILITERAL');
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('G29', 'b3', 'BILITERAL');
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('G40', 'p3', 'BILITERAL');
@@ -109,7 +109,7 @@ INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('F31', 'ms', 'BI
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('F20', 'ns', 'BILITERAL');
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('W14', 'h)s', 'BILITERAL');
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('V6', 's^s', 'BILITERAL');
-INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('G35', 'aq', 'BILITERAL');
+INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('G35', 'ck.', 'BILITERAL');
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('V29', 'sk', 'BILITERAL');
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('I3', 'jt', 'BILITERAL');
 INSERT INTO hieroglyph (signid, transliteration, label) VALUES ('G14', 'mt', 'BILITERAL');

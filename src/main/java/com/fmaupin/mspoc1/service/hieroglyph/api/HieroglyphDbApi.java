@@ -1,11 +1,14 @@
-package com.fmaupin.mspoc1.core.exception;
+package com.fmaupin.mspoc1.service.hieroglyph.api;
 
-import lombok.Generated;
+import java.util.List;
+
+import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 
 /**
- * Exception si l'algorithme est introuvable
+ * Interface pour couche service pour la gestion des données hiéroglyphiques en
+ * base de données
  *
- * @author fmaupin, 03/11/2023
+ * @author fmaupin, 02/11/2023
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -24,11 +27,9 @@ import lombok.Generated;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@Generated
-public class AlgorithmNotFoundException extends GenericException {
+@FunctionalInterface
+public interface HieroglyphDbApi {
 
-    public AlgorithmNotFoundException(Enum<?> feature) {
-        super("algorithm-not-found", feature.name());
-    }
+    public List<HieroglyphDb> findAll();
 
 }
