@@ -31,4 +31,6 @@ import com.fmaupin.mspoc1.model.Rule;
 public interface RuleApi {
 
     List<Rule> getAllRulesFromFeature(AlgorithmEnum feature) throws RulesNotFoundException;
+
+    List<Rule> getAllRules();
 }
