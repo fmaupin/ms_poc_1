@@ -1,14 +1,18 @@
-package com.fmaupin.mspoc1.core.exception;
+package com.fmaupin.mspoc1.core.algorithms;
 
-import lombok.Generated;
+import java.util.List;
+
+import com.fmaupin.mspoc1.core.enumeration.AlgorithmEnum;
+import com.fmaupin.mspoc1.core.exception.ExecuteAlgorithmException;
+import com.fmaupin.mspoc1.core.exception.InputAlgorithmException;
 
 /**
- * Exception si l'algorithme est introuvable
+ * Interface pour algorithme
  *
- * @author fmaupin, 03/11/2023
+ * @author fmaupin, 12/08/2024
  *
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -24,11 +28,13 @@ import lombok.Generated;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@Generated
-public class AlgorithmNotFoundException extends GenericException {
+public interface Algorithm<T, R> {
 
-    public AlgorithmNotFoundException(Enum<?> feature) {
-        super("algorithm-not-found", feature.name());
-    }
+    public AlgorithmEnum getFeature();
 
+    public void input(List<T> data) throws InputAlgorithmException;
+
+    public void execute() throws ExecuteAlgorithmException;
+
+    public List<R> output();
 }

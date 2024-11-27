@@ -20,9 +20,9 @@ import com.fmaupin.mspoc1.core.layer.Layer;
 import com.fmaupin.mspoc1.core.layer.LayerManager;
 import com.fmaupin.mspoc1.core.mapper.HieroglyphMapper;
 import com.fmaupin.mspoc1.core.mapper.SequenceMapper;
-import com.fmaupin.mspoc1.mapper.MockPhonogramService;
+import com.fmaupin.mspoc1.mapper.MockHieroglyphService;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
-import com.fmaupin.mspoc1.service.hieroglyph.api.PhonogramApi;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphApi;
 
 /**
  * Tests sur layers
@@ -47,7 +47,7 @@ import com.fmaupin.mspoc1.service.hieroglyph.api.PhonogramApi;
  *        02110-1301, USA.
  */
 @SpringBootTest
-@Import(MockPhonogramService.class)
+@Import(MockHieroglyphService.class)
 class LayerTests {
 
     private SequenceMapper sequenceMapper;
@@ -59,10 +59,10 @@ class LayerTests {
     private final String sequence = "G1 M17";
 
     @BeforeEach
-    void init(@Autowired PhonogramApi phonogramService) {
+    void init(@Autowired HieroglyphApi hieroglyphService) {
         sequenceMapper = new SequenceMapper();
 
-        hieroglyphMapper = new HieroglyphMapper(phonogramService);
+        hieroglyphMapper = new HieroglyphMapper(hieroglyphService);
 
         layerManager.clear();
 

@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
-import com.fmaupin.mspoc1.service.hieroglyph.api.PhonogramApi;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphApi;
 
 /**
  * Mapper une liste de signes (codification Gardiner) vers une liste d'objets
@@ -36,10 +36,10 @@ public class HieroglyphMapper implements MapListToListMapper<String, HieroglyphR
 
     private int idx; // NOSONAR
 
-    private PhonogramApi phonogramService;
+    private HieroglyphApi hieroglyphService;
 
-    public HieroglyphMapper(final PhonogramApi phonogramService) {
-        this.phonogramService = phonogramService;
+    public HieroglyphMapper(final HieroglyphApi hieroglyphService) {
+        this.hieroglyphService = hieroglyphService;
     }
 
     @Override
@@ -48,11 +48,12 @@ public class HieroglyphMapper implements MapListToListMapper<String, HieroglyphR
         idx = 0;
 
         from.forEach(token -> {
-            Set<HieroglyphEnum> phonogramtypes = phonogramService.getTypeFromSign(token);
+            Set<HieroglyphEnum> hierotypes = hieroglyphService.getLabelsFromSign(token);
 
-            if (HieroglyphEnum.isPhonogram(phonogramtypes)) {
-                map.add(new HieroglyphResult(Arrays.asList(token), phonogramService.getTransliterationFromSign(token),
-                        phonogramtypes, (idx + 1)));
+            if (HieroglyphEnum.isPhonogram(hierotypes)) {
+                map.add(new HieroglyphResult(Arrays.asList(token),
+                        hieroglyphService.getTransliterationFromSign(token),
+                        hierotypes, (idx + 1)));
             } else {
                 Set<HieroglyphEnum> undefined = new HashSet<>();
                 undefined.add(HieroglyphEnum.UNDEFINED);

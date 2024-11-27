@@ -91,6 +91,19 @@ public class CacheService {
         return result;
     }
 
+    public List<HieroglyphDb> getAll() {
+        List<HieroglyphDb> result = new ArrayList<>();
+
+        Optional<ArrayList<HieroglyphDb>> cachedEntries = ofNullable(
+                cache.get().get(ALL_HIEROGLYPHS_CACHE_KEY, ArrayList.class));
+
+        if (cachedEntries.isPresent()) {
+            result = cachedEntries.get().stream().collect(Collectors.toList());
+        }
+
+        return result;
+    }
+
     /**
      * vider le cache
      */

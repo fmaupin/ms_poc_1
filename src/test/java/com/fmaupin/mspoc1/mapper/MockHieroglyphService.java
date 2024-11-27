@@ -13,11 +13,11 @@ import com.fmaupin.mspoc1.core.exception.AlgorithmNotFoundException;
 import com.fmaupin.mspoc1.core.exception.ExecuteAlgorithmException;
 import com.fmaupin.mspoc1.core.exception.InputAlgorithmException;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
-import com.fmaupin.mspoc1.model.hieroglyph.PhoneticComplement;
-import com.fmaupin.mspoc1.service.hieroglyph.api.PhonogramApi;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphApi;
 
 /**
- * Configuration mockée pour test service phonogrammes
+ * Configuration mockée pour test service de la gestion hiéroglyphes côté
+ * applicatif
  *
  * @author fmaupin, 31/03/2024
  *
@@ -39,39 +39,54 @@ import com.fmaupin.mspoc1.service.hieroglyph.api.PhonogramApi;
  *        02110-1301, USA.
  */
 @TestConfiguration
-public class MockPhonogramService {
+public class MockHieroglyphService {
 
     @Bean
-    public PhonogramApi phonogramService() {
-        return new PhonogramApi() {
+    public HieroglyphApi hieroglyphService() {
+        return new HieroglyphApi() {
+
             @Override
-            public List<HieroglyphResult> getHieroglyphLabelsFromSequence(String sequence,
-                    HieroglyphEnum... types) {
-                throw new UnsupportedOperationException("Unimplemented method 'numberOfPhoneticComplements'");
+            public List<String> getTokens(String sequence) {
+                throw new UnsupportedOperationException("Unimplemented method 'getTokens'");
             }
 
             @Override
-            public int numberOfPhoneticComplements(String sequence)
+            public List<HieroglyphResult> mapTo(String sequence) {
+                throw new UnsupportedOperationException("Unimplemented method 'mapTo'");
+            }
+
+            @Override
+            public boolean isContainsKnownHieroglyphicStructure(String sequence) {
+                throw new UnsupportedOperationException("Unimplemented method 'isContainsKnownHieroglyphicStructure'");
+            }
+
+            @Override
+            public String getMdCTransliteration(String sequence)
                     throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException {
-                throw new UnsupportedOperationException("Unimplemented method 'numberOfPhoneticComplements'");
+                throw new UnsupportedOperationException("Unimplemented method 'getMdCTransliteration'");
             }
 
             @Override
-            public Set<HieroglyphEnum> getTypeFromSign(String signId) {
+            public String getGardinerTransliteration(String mdcTransliteration) {
+                throw new UnsupportedOperationException("Unimplemented method 'getGardinerTransliteration'");
+            }
+
+            @Override
+            public List<HieroglyphResult> getHieroglyphLabelsFromSequence(String sequence, HieroglyphEnum... labels) {
+                throw new UnsupportedOperationException("Unimplemented method 'getHieroglyphLabelsFromSequence'");
+            }
+
+            @Override
+            public Set<HieroglyphEnum> getLabelsFromSign(String signId) {
                 return signId == "XX" ? new HashSet<>(Arrays.asList(HieroglyphEnum.UNDEFINED))
                         : new HashSet<>(Arrays.asList(HieroglyphEnum.UNILITERAL));
-            }
-
-            @Override
-            public List<PhoneticComplement> getPhoneticComplements(String sequence)
-                    throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException {
-                throw new UnsupportedOperationException("Unimplemented method 'getPhoneticComplements'");
             }
 
             @Override
             public Set<String> getTransliterationFromSign(String signId) {
                 return signId == "XX" ? new HashSet<>() : new HashSet<>(Arrays.asList("d_"));
             }
+
         };
     }
 }

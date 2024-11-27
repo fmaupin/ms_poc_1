@@ -1,15 +1,18 @@
 package com.fmaupin.mspoc1.service.hieroglyph.api;
 
 import java.util.List;
+import java.util.Set;
+
+import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.core.exception.AlgorithmNotFoundException;
 import com.fmaupin.mspoc1.core.exception.ExecuteAlgorithmException;
 import com.fmaupin.mspoc1.core.exception.InputAlgorithmException;
-import com.fmaupin.mspoc1.model.hieroglyph.PhoneticComplement;
+import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
 
 /**
- * Interface pour couche service pour la gestion des phonogrammes
+ * Interface pour couche service des hiéroglyphes
  *
- * @author fmaupin, 02/11/2023
+ * @author fmaupin, 12/08/2024
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -28,11 +31,22 @@ import com.fmaupin.mspoc1.model.hieroglyph.PhoneticComplement;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-public interface PhonogramApi {
+public interface HieroglyphApi {
 
-        public int numberOfPhoneticComplements(String sequence)
-                        throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException;
+    public List<String> getTokens(String sequence);
 
-        public List<PhoneticComplement> getPhoneticComplements(String sequence)
-                        throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException;
+    public List<HieroglyphResult> mapTo(String sequence);
+
+    public boolean isContainsKnownHieroglyphicStructure(String sequence);
+
+    public String getMdCTransliteration(String sequence)
+            throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException;
+
+    public String getGardinerTransliteration(String mdcTransliteration);
+
+    public List<HieroglyphResult> getHieroglyphLabelsFromSequence(String sequence, HieroglyphEnum... labels);
+
+    public Set<HieroglyphEnum> getLabelsFromSign(String signId);
+
+    public Set<String> getTransliterationFromSign(String signId);
 }
