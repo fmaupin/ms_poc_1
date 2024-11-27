@@ -1,11 +1,15 @@
-package com.fmaupin.mspoc1.core.exception;
+package com.fmaupin.mspoc1.service.hieroglyph.api;
 
-import lombok.Generated;
+import java.util.List;
+
+import com.fmaupin.mspoc1.core.enumeration.AlgorithmEnum;
+import com.fmaupin.mspoc1.core.exception.RulesNotFoundException;
+import com.fmaupin.mspoc1.model.Rule;
 
 /**
- * Exception si l'algorithme est introuvable
+ * Interface pour couche service pour la gestion des règles
  *
- * @author fmaupin, 03/11/2023
+ * @author fmaupin, 12/08/2024
  *
  * @since 0.0.1-SNAPSHOT
  *
@@ -24,11 +28,7 @@ import lombok.Generated;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@Generated
-public class AlgorithmNotFoundException extends GenericException {
+public interface RuleApi {
 
-    public AlgorithmNotFoundException(Enum<?> feature) {
-        super("algorithm-not-found", feature.name());
-    }
-
+    List<Rule> getAllRulesFromFeature(AlgorithmEnum feature) throws RulesNotFoundException;
 }

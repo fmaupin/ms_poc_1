@@ -1,14 +1,14 @@
-package com.fmaupin.mspoc1.core.exception;
+package com.fmaupin.mspoc1.core.algorithms;
 
-import lombok.Generated;
+import java.util.List;
 
 /**
- * Exception si l'algorithme est introuvable
+ * Interface pour steppers (étape traitement d'un algorithme)
  *
- * @author fmaupin, 03/11/2023
+ * @author fmaupin, 12/08/2024
  *
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -24,11 +24,13 @@ import lombok.Generated;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@Generated
-public class AlgorithmNotFoundException extends GenericException {
+public interface Stepper {
 
-    public AlgorithmNotFoundException(Enum<?> feature) {
-        super("algorithm-not-found", feature.name());
+    public boolean init(List<?> input);
+
+    public List<?> play(); // NOSONAR
+
+    default String getName() {
+        return this.getClass().getSimpleName();
     }
-
 }

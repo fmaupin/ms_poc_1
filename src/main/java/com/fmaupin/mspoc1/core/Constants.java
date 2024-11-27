@@ -45,16 +45,28 @@ public class Constants {
 
     public static final String LABEL_SPLIT_SEPARATOR = ",";
 
+    public static final String SEPARATOR_PATTERN_REGEX = "\\|";
+
     // service executor
     public static final Integer AWAIT_TERMINATION = 1000;
 
     // cache
     public static final String NO_CACHE = "internal error : no cache %s unavailable";
 
-    // paramétres
+    // paramètres
     public static final String INCORRECT_VALUE = "parameter-is-incorrect";
 
     public static final String PATTERN_ERROR_WITH_PARAMETER = "%s : %s";
+
+    public static final String SEQUENCE_PARAMETER = "sequence";
+
+    public static final String DATA_PARAMETER = "data";
+
+    public static final String SIGNID_PARAMETER = "sign-id";
+
+    public static final String SEQUENCE_PARAMETER_ERROR = String.format("%s: %s", INCORRECT_VALUE, SEQUENCE_PARAMETER);
+
+    public static final String SIGNID_PARAMETER_ERROR = String.format("%s: %s", INCORRECT_VALUE, SIGNID_PARAMETER);
 
     // fichiers json
     public static final String JSON_FILE = "rules.json";

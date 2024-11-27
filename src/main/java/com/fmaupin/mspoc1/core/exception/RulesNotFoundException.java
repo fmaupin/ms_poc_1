@@ -1,17 +1,14 @@
-package com.fmaupin.mspoc1.service.hieroglyph.api;
+package com.fmaupin.mspoc1.core.exception;
 
-import java.util.List;
-
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+import com.fmaupin.mspoc1.core.enumeration.AlgorithmEnum;
 
 /**
- * Interface pour couche service pour la gestion des données hiéroglyphiques en
- * base de données
- *
- * @author fmaupin, 02/11/2023
+ * Exception si règle introuvable
+ * 
+ * @author fmaupin, 12/08/2024
  *
  * @since 0.0.1-SNAPSHOT
- *
+ * 
  *        mspoc1 is free software; you can redistribute it and/or
  *        modify it under the terms of the GNU Lesser General Public License as
  *        published by the Free Software Foundation; either version 3 of the
@@ -27,9 +24,9 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
-@FunctionalInterface
-public interface HieroglyphicDbApi {
+public class RulesNotFoundException extends GenericException {
 
-    public List<HieroglyphDb> findAll();
-
+    public RulesNotFoundException(AlgorithmEnum feature) {
+        super("rules-not-found", feature.name());
+    }
 }

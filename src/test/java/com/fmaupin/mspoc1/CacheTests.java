@@ -19,7 +19,7 @@ import com.fmaupin.mspoc1.annotations.SkipInit;
 import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 import com.fmaupin.mspoc1.service.CacheService;
-import com.fmaupin.mspoc1.service.hieroglyph.HieroglyphDbService;
+import com.fmaupin.mspoc1.service.hieroglyph.HieroglyphDbServiceImpl;
 
 /**
  * Tests sur cache données
@@ -56,7 +56,7 @@ class CacheTests {
 	private static final String HIEROGLYPH_ID = "G1";
 
 	@BeforeEach
-	void init(@Autowired HieroglyphDbService service, TestInfo testInfo)
+	void init(@Autowired HieroglyphDbServiceImpl service, TestInfo testInfo)
 			throws SecurityException {
 		cacheService.clear();
 
