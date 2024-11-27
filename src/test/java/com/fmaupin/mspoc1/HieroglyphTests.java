@@ -9,9 +9,14 @@ import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
+import com.fmaupin.mspoc1.core.exception.AlgorithmNotFoundException;
+import com.fmaupin.mspoc1.core.exception.ExecuteAlgorithmException;
+import com.fmaupin.mspoc1.core.exception.InputAlgorithmException;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphApi;
 
 /**
  * Tests sur les hiéroglyphes
@@ -35,12 +40,17 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
  *        Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  *        02110-1301, USA.
  */
+@SpringBootTest
 class HieroglyphTests {
 
     private static Set<HieroglyphEnum> mockUniliteral;
 
+    private static HieroglyphApi hieroglyphService;
+
     @BeforeAll
-    static void init() {
+    static void init(@Autowired HieroglyphApi hieroglyphService) {
+        HieroglyphTests.hieroglyphService = hieroglyphService;
+
         mockUniliteral = new HashSet<>();
         mockUniliteral.add(HieroglyphEnum.UNILITERAL);
     }
@@ -74,6 +84,30 @@ class HieroglyphTests {
 
         mockTransliterationFromSign = new HashSet<>();
         assertEquals("", HieroglyphResult.getTransliteration(getHieroResultList(mockTransliterationFromSign)));
+    }
+
+    @Test
+    void testMdCTransliteration() throws AlgorithmNotFoundException,
+            InputAlgorithmException, ExecuteAlgorithmException {
+        String sequence = "D36 O29 G1 O28 N35";
+        assertEquals("c3 jwn", hieroglyphService.getMdCTransliteration(sequence));
+    }
+
+    @Test
+    void testGardinerTransliteration() {
+        String mdcTransliteration = "qd ad)";
+
+        assertEquals(String.valueOf((char) 0x1E33) + "d " + String.valueOf((char) 0xA724)
+                + "d)", hieroglyphService.getGardinerTransliteration(mdcTransliteration));
+
+        assertEquals("", hieroglyphService.getGardinerTransliteration(""));
+    }
+
+    @Test
+    void testIsContainsKnownHieroglyphicStructure() {
+        String sequence = "XX YY ZZ";
+
+        assertEquals(false, hieroglyphService.isContainsKnownHieroglyphicStructure(sequence));
     }
 
     private List<HieroglyphResult> getHieroResultList(Set<String> mockTransliterationFromSign) {
