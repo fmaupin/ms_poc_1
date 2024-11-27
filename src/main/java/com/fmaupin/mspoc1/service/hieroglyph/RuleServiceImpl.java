@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -16,9 +15,7 @@ import com.fmaupin.mspoc1.core.json.JsonLoader;
 import com.fmaupin.mspoc1.model.Rule;
 import com.fmaupin.mspoc1.service.hieroglyph.api.RuleApi;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.AccessLevel;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Couche service pour la gestion des règles
@@ -43,12 +40,11 @@ import lombok.AccessLevel;
  *        02110-1301, USA.
  */
 @Service
+@Slf4j
 public class RuleServiceImpl implements RuleApi {
 
     private static final String JSON_FILE = "rules.json";
 
-    @Getter
-    @Setter(AccessLevel.NONE)
     private List<Rule> rules;
 
     public RuleServiceImpl() throws IOException {
@@ -63,7 +59,17 @@ public class RuleServiceImpl implements RuleApi {
     public List<Rule> getAllRulesFromFeature(AlgorithmEnum feature) throws RulesNotFoundException {
         requireNonNull(feature);
 
-        return Optional.of(rules.stream().filter(r -> r.getFeature() == feature).collect(Collectors.toList()))
-                .orElseThrow(() -> new RulesNotFoundException(feature));
+        List<Rule> filteredRules = rules.stream().filter(r -> r.getFeature() == feature).collect(Collectors.toList());
+
+        if (filteredRules.isEmpty()) {
+            throw new RulesNotFoundException(feature);
+        }
+
+        return filteredRules;
+    }
+
+    @Override
+    public List<Rule> getAllRules() {
+        return rules;
     }
 }
