@@ -107,13 +107,13 @@ public class HieroglyphResult extends Hieroglyph {
     public static String getIndexsInSequence(List<HieroglyphResult> results) {
         StringBuilder ret = new StringBuilder();
 
-        ret.append("{");
+        ret.append("(");
 
         for (HieroglyphResult resultDTO : results) {
             ret.append("->" + resultDTO.getIndexInSequence());
         }
 
-        ret.append("}");
+        ret.append(")");
 
         return ret.toString();
     }

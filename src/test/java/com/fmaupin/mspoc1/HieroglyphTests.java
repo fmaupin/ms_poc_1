@@ -67,7 +67,7 @@ class HieroglyphTests {
     @Test
     void testIndexsInSequenceInHieroglyphResult() {
         Set<String> mockTransliterationFromSign = new HashSet<>(Arrays.asList("d_"));
-        assertEquals("{->1->2}", HieroglyphResult.getIndexsInSequence(getHieroResultList(mockTransliterationFromSign)));
+        assertEquals("(->1->2)", HieroglyphResult.getIndexsInSequence(getHieroResultList(mockTransliterationFromSign)));
     }
 
     @Test

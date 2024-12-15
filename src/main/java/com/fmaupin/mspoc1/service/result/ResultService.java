@@ -93,7 +93,10 @@ public class ResultService implements Result {
                     if (exception != null) {
                         errorHandling(exception.getMessage());
                     } else {
-                        updateResultObject(poll, result);
+                        // publication du résultat uniquement si résultat n'est pas vide
+                        if (!result.isBlank()) {
+                            updateResultObject(poll, result);
+                        }
                     }
                 });
     }
