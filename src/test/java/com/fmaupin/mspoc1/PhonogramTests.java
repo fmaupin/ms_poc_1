@@ -196,7 +196,7 @@ class PhonogramTests {
         void testGetPhoneticComplementsInSequence()
                         throws AlgorithmNotFoundException, InputAlgorithmException, ExecuteAlgorithmException {
                 Set<String> uTransliteration0 = new HashSet<>(Arrays.asList("c"));
-                Set<String> uTransliteration0b = new HashSet<>(Arrays.asList("3"));
+                Set<String> uTransliteration0b = new HashSet<>(Arrays.asList("A"));
 
                 List<Set<String>> uTransliteration0List = new ArrayList<>();
                 uTransliteration0List.add(uTransliteration0);

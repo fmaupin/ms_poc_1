@@ -90,7 +90,7 @@ class HieroglyphTests {
     void testMdCTransliteration() throws AlgorithmNotFoundException,
             InputAlgorithmException, ExecuteAlgorithmException {
         String sequence = "D36 O29 G1 O28 N35";
-        assertEquals("c3 jwn", hieroglyphService.getMdCTransliteration(sequence));
+        assertEquals("cA jwn", hieroglyphService.getMdCTransliteration(sequence));
     }
 
     @Test
