@@ -1,14 +1,29 @@
 package com.fmaupin.mspoc1.service.logic;
 
-import java.util.Random;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import org.springframework.stereotype.Service;
+
+import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
+import com.fmaupin.mspoc1.core.enumeration.OutputQueueMessageEnum;
+import com.fmaupin.mspoc1.core.exception.AlgorithmNotFoundException;
+import com.fmaupin.mspoc1.core.exception.ExecuteAlgorithmException;
+import com.fmaupin.mspoc1.core.exception.InputAlgorithmException;
+import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphApi;
+import com.fmaupin.mspoc1.service.hieroglyph.api.PhonogramApi;
 
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Couche service pour implémentation métier
+ * Couche service pour implémentation détection et traitement des phonogrammes à
+ * partir d'un message dans queue entrante
  *
  * @author fmaupin, 29/08/2023
  *
@@ -34,25 +49,74 @@ import lombok.extern.slf4j.Slf4j;
 @Generated
 public class LogicService implements Logic {
 
-    private Random random = new Random();
+        private HieroglyphApi hieroglyphService;
 
-    @Override
-    public String run(String message) {
-        long lowerLimit = 1000L;
-        long upperLimit = 10000L;
+        private PhonogramApi phonogramService;
 
-        long processingTime = random.nextLong(lowerLimit, upperLimit);
-
-        try {
-            Thread.sleep(processingTime);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        public LogicService(final HieroglyphApi hieroglyphService, final PhonogramApi phonogramService) {
+                this.hieroglyphService = hieroglyphService;
+                this.phonogramService = phonogramService;
         }
 
-        log.info("Thread {} - processing message {} -> processing time {}", Thread.currentThread().getName(), message,
-                processingTime);
+        @Override
+        public String run(String message) {
+                // seulement les messages qui contiennent une séquence hiéroglyphique sont pris
+                // en compte
+                if (hieroglyphService.isContainsKnownHieroglyphicStructure(message)) {
+                        try {
+                                Instant start = Instant.now();
 
-        return message;
-    }
+                                JSONObject result = new JSONObject();
 
+                                result.put(OutputQueueMessageEnum.MESSAGE.getMessage(), message);
+
+                                // informations sur phonogrammes
+                                result.put(OutputQueueMessageEnum.UNILITERAL.getMessage(),
+                                                getJsonObject(message, HieroglyphEnum.UNILITERAL));
+                                result.put(OutputQueueMessageEnum.BILITERAL.getMessage(),
+                                                getJsonObject(message, HieroglyphEnum.BILITERAL));
+                                result.put(OutputQueueMessageEnum.TRILITERAL.getMessage(),
+                                                getJsonObject(message, HieroglyphEnum.TRILITERAL));
+
+                                result.put(OutputQueueMessageEnum.NUMBER_OF_PHONETIC_COMPLEMENTS.getMessage(),
+                                                phonogramService.numberOfPhoneticComplements(message));
+
+                                // translittération message
+                                String mdcTransliteration = hieroglyphService.getMdCTransliteration(message);
+                                result.put(OutputQueueMessageEnum.TRANSLITERATION.getMessage(),
+                                                hieroglyphService.getGardinerTransliteration(mdcTransliteration));
+
+                                Instant end = Instant.now();
+
+                                log.info("Thread {} - processing message : {} -> processing time : {} ms",
+                                                Thread.currentThread().getName(),
+                                                message,
+                                                ChronoUnit.MILLIS.between(start, end));
+
+                                log.info("Result sended : {}", result.toString());
+
+                                return result.toString();
+                        } catch (JSONException | AlgorithmNotFoundException | InputAlgorithmException
+                                        | ExecuteAlgorithmException e) {
+                                log.error(e.getMessage());
+                        }
+                }
+
+                log.info("not hieroglyphic sequence => no result");
+
+                return "";
+        }
+
+        private JSONObject getJsonObject(String message, HieroglyphEnum type) {
+                List<HieroglyphResult> resultsU = hieroglyphService.getHieroglyphLabelsFromSequence(message,
+                                type);
+                JSONObject result = new JSONObject();
+
+                result.put(OutputQueueMessageEnum.NUMBER.getMessage(), resultsU.size());
+
+                result.put(OutputQueueMessageEnum.LOCATION.getMessage(),
+                                HieroglyphResult.getIndexsInSequence(resultsU));
+
+                return result;
+        }
 }
