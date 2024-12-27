@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.0</version>
+        <version>3.4.1</version>
         <relativePath/>
     </parent>
 
@@ -15,11 +15,17 @@
     <description>micro service poc 1</description>
 
     <properties>
+        <start-class>com.fmaupin.mspoc1.Application</start-class>
+        <!-- java version used by spring boot -->
         <java.version>17</java.version>
+
+        <github.username>${env.GITHUB_USERNAME}</github.username>
+        <github.token>${env.GITHUB_TOKEN}</github.token>
+        <tag>${env.TAG}</tag>
+        <image.name>mspoc1</image.name>
     </properties>
 
     <dependencies>
-
         <!-- spring boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -136,7 +142,6 @@
             <artifactId>json</artifactId>
             <version>20240303</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -146,10 +151,28 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>
+
         <plugins>
+            <!-- handle jar content & manifest configuration -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <mainClass>${start-class}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- spring boot support & package executable -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.4.1</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -160,6 +183,7 @@
                 </configuration>
             </plugin>
 
+            <!-- coverage code -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -204,6 +228,26 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- build & push image -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.4</version>
+                <configuration>
+                    <to>
+                        <image>ghcr.io/${github.username}/${image.name}:${tag}</image>
+                        <auth>
+                            <username>${github.username}</username>
+                            <password>${github.token}</password>
+                        </auth>
+                    </to>
+                    <container>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                    </container>
+                    <httpTimeout>60000</httpTimeout>
+                </configuration>
             </plugin>
         </plugins>
     </build>

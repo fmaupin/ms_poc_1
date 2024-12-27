@@ -33,12 +33,28 @@ mvn spring-boot:run -Dspring-boot.run.arguments="--my.password.db=<my password d
 ```
 mvn jacoco:prepare-agent test -Dmy.password.db=<my password db> -Dmy.password.broker=<my password broker> install jacoco:report
 
-mvn clean install -Dmy.password.db=<my password db> -Dmy.password.broker=<my password broker>
+mvn clean install -Dmy.password.db=<my password db> -Dmy.password.broker=<my password broker> -DskipTests=true
 ```
 
 La valeur de "my password db" correspond au mot de passe pour la base de données.
 
 La valeur de "my password broker" va dépendre du password généré par le projet [ms_poc_1_rabbitMQ](https://github.com/fmaupin/ms_poc_1_rabbitMQ). 
+
+***
+
+### Build & push image
+
+Pré-requis : credentials GitHub et Docker
+
+Créer au préalable un personal token sur GitHub (read/writing/delete packages et repo) et sur Docker Hub
+
+NOTE : JIB va récupérer l'image de référence (adaptée à la version de Java) sur Docker Hub
+
+```
+./build_and_push_image.sh <GITHUB_USERNAME> <GITHUB_TOKEN> <DOCKERHUB_USERNAME> <DOCKERHUB_TOKEN>
+```
+
+Image buildée et pushée sur GitHub Container Registry (disponible sur onglet "Packages")
 
 ***
 
