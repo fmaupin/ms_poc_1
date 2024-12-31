@@ -16,7 +16,9 @@ import com.fmaupin.mspoc1.core.exception.AlgorithmNotFoundException;
 import com.fmaupin.mspoc1.core.exception.ExecuteAlgorithmException;
 import com.fmaupin.mspoc1.core.exception.InputAlgorithmException;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
+import com.fmaupin.mspoc1.service.CacheService;
 import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphApi;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphDbApi;
 
 /**
  * Tests sur les hiéroglyphes
@@ -48,11 +50,15 @@ class HieroglyphTests {
     private static HieroglyphApi hieroglyphService;
 
     @BeforeAll
-    static void init(@Autowired HieroglyphApi hieroglyphService) {
+    static void init(@Autowired HieroglyphApi hieroglyphService, @Autowired CacheService cacheService,
+            @Autowired HieroglyphDbApi hieroglyphDbApiService) {
         HieroglyphTests.hieroglyphService = hieroglyphService;
 
         mockUniliteral = new HashSet<>();
         mockUniliteral.add(HieroglyphEnum.UNILITERAL);
+
+        cacheService.clear();
+        hieroglyphDbApiService.findAll();
     }
 
     @Test

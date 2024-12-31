@@ -34,7 +34,7 @@ fi
 DIGEST=$(docker inspect eclipse-temurin:17-jre --format='{{index .RepoDigests 0}}' 2>/dev/null | cut -d'@' -f2)
 
 # build & push image
-mvn compile jib:build -Djib.from.image=eclipse-temurin@$DIGEST
+mvn compile jib:build -Djib.httpTimeout=60000 -Djib.from.image=eclipse-temurin@$DIGEST
 if [ $? -ne 0 ]; then
   echo "Erreur : build image a échoué"
   exit 1

@@ -31,14 +31,13 @@ import com.fmaupin.mspoc1.core.layer.Layer;
 import com.fmaupin.mspoc1.core.layer.LayerManager;
 import com.fmaupin.mspoc1.core.mapper.HieroglyphMapper;
 import com.fmaupin.mspoc1.core.mapper.SequenceMapper;
-import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphResult;
 import com.fmaupin.mspoc1.model.hieroglyph.PhoneticComplement;
 import com.fmaupin.mspoc1.service.CacheService;
 import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphApi;
 import com.fmaupin.mspoc1.service.hieroglyph.api.RuleApi;
 
-import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Couche service pour la gestion des hiéroglyphes côté applicatif
@@ -63,6 +62,7 @@ import lombok.Getter;
  *        02110-1301, USA.
  */
 @Service
+@Slf4j
 public class HieroglyphServiceImpl extends CommonService implements HieroglyphApi {
 
     private SequenceMapper sequenceMapper = new SequenceMapper();
@@ -73,8 +73,7 @@ public class HieroglyphServiceImpl extends CommonService implements HieroglyphAp
 
     private RuleApi ruleService;
 
-    @Getter
-    private List<HieroglyphDb> hieros;
+    private CacheService cacheService;
 
     private BiFunction<String, List<HieroglyphResult>, Integer> getIndexOfBiliteralOrTriliteral = (
             transliteration, data) -> {
@@ -96,8 +95,7 @@ public class HieroglyphServiceImpl extends CommonService implements HieroglyphAp
         this.ruleService = ruleService;
 
         hieroglyphMapper = new HieroglyphMapper(this);
-
-        hieros = cacheService.getAll();
+        this.cacheService = cacheService;
     }
 
     @Override
@@ -132,8 +130,13 @@ public class HieroglyphServiceImpl extends CommonService implements HieroglyphAp
 
         // la seule structure supportée par le micro-service est la gestion des
         // phonogrammes !
-        Predicate<String> p = t -> hieros.stream().filter(h -> HieroglyphEnum.isPhonogram(h.getLabel()))
-                .anyMatch(ph -> ph.getSignid().contains(t));
+        Predicate<String> p = t -> {
+            boolean result = cacheService.getAll().stream()
+                    .filter(h -> HieroglyphEnum.isPhonogram(h.getLabel()))
+                    .anyMatch(ph -> ph.getSignid().contains(t));
+            log.info("Checking token : " + t + " -> " + result);
+            return result;
+        };
 
         return sequenceMapper.mapTo(sequence).stream().anyMatch(p);
     }
@@ -198,7 +201,7 @@ public class HieroglyphServiceImpl extends CommonService implements HieroglyphAp
                     String.format("%s: %s", Constants.INCORRECT_VALUE, "at least one label"));
         }
 
-        return super.getHieroglyphsByLabels(sequence, hieros, labels);
+        return super.getHieroglyphsByLabels(sequence, cacheService.getAll(), labels);
     }
 
     @Override
@@ -209,7 +212,7 @@ public class HieroglyphServiceImpl extends CommonService implements HieroglyphAp
             throw new IllegalArgumentException(Constants.SIGNID_PARAMETER_ERROR);
         }
 
-        return CommonService.getLabelsFromSign(signId, hieros);
+        return CommonService.getLabelsFromSign(signId, cacheService.getAll());
     }
 
     @Override
@@ -220,7 +223,7 @@ public class HieroglyphServiceImpl extends CommonService implements HieroglyphAp
             throw new IllegalArgumentException(Constants.SIGNID_PARAMETER_ERROR);
         }
 
-        return super.getTransliterationFromSign(signId, hieros);
+        return super.getTransliterationFromSign(signId, cacheService.getAll());
     }
 
     /**
