@@ -15,6 +15,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import com.fmaupin.mspoc1.core.Constants;
 import com.fmaupin.mspoc1.core.exception.ThreadInterruptedException;
 import com.fmaupin.mspoc1.model.message.InputMessage;
+import com.fmaupin.mspoc1.service.CacheService;
+import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphDbApi;
 import com.fmaupin.mspoc1.service.result.ResultService;
 import com.rabbitmq.client.Channel;
 
@@ -52,12 +54,17 @@ import lombok.extern.slf4j.Slf4j;
 public class Application implements CommandLineRunner {
 
 	private ResultService resultService;
+	private HieroglyphDbApi hieroglyphDbService;
+	private CacheService cacheService;
 
 	// contenu dernier message entrant
 	private String previousMessage = "";
 
-	public Application(ResultService resultService) {
+	public Application(final ResultService resultService, final HieroglyphDbApi hieroglyphDbService,
+			final CacheService cacheService) {
 		this.resultService = resultService;
+		this.hieroglyphDbService = hieroglyphDbService;
+		this.cacheService = cacheService;
 	}
 
 	public static void main(String[] args) {
@@ -66,6 +73,11 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
+		cacheService.clear();
+
+		log.info("Reading hieroglyphs at startup...");
+		hieroglyphDbService.findAll();
+
 		Thread polling = new Thread(() -> {
 			while (true) {
 				try {

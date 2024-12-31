@@ -51,6 +51,8 @@ public class JsonLoader<T> {
     /**
      * @return liste d'objets extraits à partir d'un fichier JSON
      * 
+     * @param jsonFile : nom du fichier JSON
+     * 
      * @throws IOException
      */
     public List<T> loadList(String jsonFile) throws IOException {
@@ -60,7 +62,7 @@ public class JsonLoader<T> {
 
         String data = IOUtils.toString(getFileFromResources(jsonFile), StandardCharsets.UTF_8);
 
-        log.info(Constants.READ_DATA, jsonFile);
+        log.info(Constants.READ_DATA + " for {} file", jsonFile);
 
         return mapper.readValue(data, typeReference);
     }

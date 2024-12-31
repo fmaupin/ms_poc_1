@@ -3,14 +3,14 @@ package com.fmaupin.mspoc1.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import com.fmaupin.mspoc1.core.enumeration.HieroglyphEnum;
 import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
+
+import lombok.extern.slf4j.Slf4j;
 
 import static java.util.Optional.ofNullable;
 
@@ -38,6 +38,7 @@ import static java.util.Optional.ofNullable;
  */
 @Service
 @SuppressWarnings("unchecked")
+@Slf4j
 public class CacheService {
 
     private static final String ALL_HIEROGLYPHS_CACHE_ALIAS = "all_hieroglyphs";
@@ -85,7 +86,7 @@ public class CacheService {
 
         if (cachedEntries.isPresent()) {
             result = cachedEntries.get().stream().filter(h -> h.getLabel().contains(label))
-                    .collect(Collectors.toList());
+                    .toList();
         }
 
         return result;
@@ -98,7 +99,7 @@ public class CacheService {
                 cache.get().get(ALL_HIEROGLYPHS_CACHE_KEY, ArrayList.class));
 
         if (cachedEntries.isPresent()) {
-            result = cachedEntries.get().stream().collect(Collectors.toList());
+            result = cachedEntries.get().stream().toList();
         }
 
         return result;

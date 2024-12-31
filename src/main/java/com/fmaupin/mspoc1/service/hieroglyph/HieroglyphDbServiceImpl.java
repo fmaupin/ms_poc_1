@@ -8,6 +8,8 @@ import com.fmaupin.mspoc1.model.hieroglyph.HieroglyphDb;
 import com.fmaupin.mspoc1.repository.HieroglyphRepository;
 import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphDbApi;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Couche service pour la gestion des hiéroglyphes en base de données
  *
@@ -31,6 +33,7 @@ import com.fmaupin.mspoc1.service.hieroglyph.api.HieroglyphDbApi;
  *        02110-1301, USA.
  */
 @Service
+@Slf4j
 public class HieroglyphDbServiceImpl implements HieroglyphDbApi {
 
     private HieroglyphRepository hieroglyphRepository;
@@ -45,7 +48,11 @@ public class HieroglyphDbServiceImpl implements HieroglyphDbApi {
     @Override
     @Cacheable(value = "all_hieroglyphs", key = "'all_hieroglyphs'")
     public List<HieroglyphDb> findAll() {
-        return hieroglyphRepository.findAll();
+        List<HieroglyphDb> hieros = hieroglyphRepository.findAll();
+
+        log.info("read {} hieroglyphs from db", hieros.size());
+
+        return hieros;
     }
 
 }
