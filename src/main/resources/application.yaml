@@ -65,6 +65,12 @@ mspoc1:
       exchange: "q2_ex"
       routingKey: "message.q2"
 
-
-
-    
+# monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    prometheus:
+      access: READ_ONLY
